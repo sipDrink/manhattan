@@ -8,10 +8,37 @@ angular.module('starter', [
   'app.common',
   'app.main',
   'app.auth',
-  'app.main.menu'
+  'app.main.menu',
+  'ngMaterial',
+  'ngCordova',
+  'pubnub.angular.service',
+  'ngResource', 'angular-jwt',
+  'LocalStorageModule', 'flux',
+  'auth0', 'ngGeodist'
   ])
-.config(function(){
+.config(function($stateProvider, $urlRouterProvider, authProvider) {
+  // $httpProvider.interceptors.push('jwtInterceptor');
 
+  $urlRouterProvider.otherwise('/auth');
+  $stateProvider
+    .state('app', {
+      abstract: true, //not sure what this does yet
+      url: '',
+      template: '<ion-nav-view></ion-nav-view>',
+      controller: 'AppController as app'
+    });
+
+  authProvider.init({
+    domain: 'sipdrink.auth0.com',
+    clientID: 'mYLZ1owVTysjstR9o6PvdHT7Kqvj5Qa9',
+    loginState: 'app.auth'
+  });
+
+})
+.controller('AppController', function($scope) {
+  // $store.bindTo($scope, function() {
+  //   this.user = $store.getUser();
+  // }.bind(this));
 })
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
