@@ -11,9 +11,26 @@
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
+    <script src="lib/lodash/dist/lodash.js"></script>
+    <!--script src="lib/collide/collide.js"></script-->
+    <script src="lib/hammerjs/hammer.js"></script>
+    <script src="lib/pubnub/web/pubnub.js"></script>
+    <script src="lib/auth0-lock/build/auth0-lock.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/angular-aria/angular-aria.js"></script>
+    <script src="lib/angular-material/angular-material.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="lib/angular-jwt/dist/angular-jwt.js"></script>
+
+    <script src="lib/pubnub-angular/lib/pubnub-angular.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/flux-angular/build/flux-angular.js"></script>
+    <script src="lib/auth0-angular/build/auth0-angular.js"></script>
+    <script src="lib/ngGeodist/dist/ng-geodist.js"></script>
+    <script src="lib/ngFx/dist/ngFx.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -26,13 +43,15 @@
     <script src="app/main/menu/menu.js"></script>
   </head>
   <body ng-app="starter">
+    <ion-nav-view></ion-nav-view>
 
-    <ion-pane>
+<!--     <ion-pane>
       <ion-header-bar class="bar-stable">
         <h1 class="title">Ionic Blank Starter</h1>
       </ion-header-bar>
       <ion-content>
       </ion-content>
-    </ion-pane>
+    </ion-pane> -->
+
   </body>
 </html>
