@@ -30,7 +30,7 @@ angular.module('starter', [
 
   authProvider.init({
     domain: 'sipdrink.auth0.com',
-    clientID: 'mYLZ1owVTysjstR9o6PvdHT7Kqvj5Qa9',
+    clientID: 'avcSZW5cgrgNHUm493pnRxIvCstzdnNs',
     loginState: 'app.auth'
   });
 
@@ -40,7 +40,9 @@ angular.module('starter', [
   //   this.user = $store.getUser();
   // }.bind(this));
 })
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, auth) {
+  auth.hookEvents();
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

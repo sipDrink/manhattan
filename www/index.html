@@ -37,15 +37,17 @@
     <script src="lib/ngGeodist/dist/ng-geodist.js"></script>
     <script src="lib/ngFx/dist/ngFx.min.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-
     <!-- your app's js -->
     <script src="app/app.js"></script>
     <script src="app/auth/auth.js"></script>
     <script src="app/common/common.js"></script>
+    <script src="app/common/flux/flux.js"></script>
+    <script src="app/common/flux/mixins.js"></script>
     <script src="app/main/main.js"></script>
     <script src="app/main/menu/menu.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
   </head>
   <body ng-app="starter">
     <ion-nav-view></ion-nav-view>
