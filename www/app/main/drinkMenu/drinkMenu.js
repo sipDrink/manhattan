@@ -4,8 +4,8 @@ angular.module('app.main.drinkMenu', [])
 	      .state('app.main.drinkMenu', {
 	        url: '/drinkMenu',
 	        templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-	        controller: 'InventoryCtrl as inventories'
+	        controller: 'DrinkMenuCtrl as drinkMenu'
 	      });
 	})
-	.controller('InventoryCtrl', function($scope, $state, $actions){
+	.controller('DrinkMenuCtrl', function($scope, $state, $actions){
 	});
