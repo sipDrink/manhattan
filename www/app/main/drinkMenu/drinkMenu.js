@@ -4,7 +4,10 @@ angular.module('app.main.drinkMenu', [])
 	      .state('app.main.drinkMenu', {
 	        url: '/drinkMenu',
 	        templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-	        controller: 'DrinkMenuCtrl as drinkMenu'
+	        controller: 'DrinkMenuCtrl as drinkMenu',
+	        data: {
+	          requiresLogin: true
+	        }
 	      });
 	})
 	.controller('DrinkMenuCtrl', function($scope, $state, $actions){

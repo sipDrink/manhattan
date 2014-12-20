@@ -56,7 +56,19 @@ angular.module('app.auth', [])
       return defer.promise;
     };
 
+    var signout = function() {
+      auth.signout();
+      $actions.reset();
+      localStorageService.remove('profile');
+      localStorageService.remove('token');
+      localStorageService.remove('refreshToken');
+      // $mdSidenav('left').close();
+      $ionicHistory.clearCache();
+      $state.go('app.auth');
+    };
+
     return {
-      signin: signin
+      signin: signin,
+      signout: signout
     };
   });
