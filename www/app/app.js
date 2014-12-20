@@ -8,7 +8,6 @@ angular.module('starter', [
   'app.common',
   'app.main',
   'app.auth',
-  'app.main.menu',
   'ngMaterial',
   'ngCordova',
   'pubnub.angular.service',
@@ -19,7 +18,9 @@ angular.module('starter', [
 .config(function($stateProvider, $urlRouterProvider, authProvider) {
   // $httpProvider.interceptors.push('jwtInterceptor');
 
-  $urlRouterProvider.otherwise('/auth');
+  //$urlRouterProvider.otherwise('/auth');
+  $urlRouterProvider.otherwise('/main/drinkMenu');
+
   $stateProvider
     .state('app', {
       abstract: true, //not sure what this does yet
