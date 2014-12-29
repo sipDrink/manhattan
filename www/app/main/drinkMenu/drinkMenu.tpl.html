@@ -1,58 +1,41 @@
-<ion-view title="Menu">
-  <ion-content class="drinkMenu-view">
-    <h1>Menu</h1>
-      <div layout="row">
-        <div flex>
-        </div>
-        <div flex>
-         <div class="list list-inset">
-           <label class="item item-input">
-             <i class="icon ion-search placeholder-icon"></i>
-             <input type="text" placeholder="Search">
-           </label>
-         </div>
-        </div>
-        
-        <div flex>  
-        </div>
-      </div>
+<ion-header-bar class="bar-dark">
+  <div class="buttons">
+    <button class="button button-icon icon ion-ios7-minus-outline" 
+      ng-click="toggleDelete()"></button>
+  <h1 class="title">Menu</h1>
+  <button class="button"
+      ng-click="toggleReorder()">
+        Reorder
+      </button>
+  </div>
+</ion-header-bar>
+ 
+<ion-content class="drinkMenu-view" ng-controller="DrinkMenuCtrl">
+  <ion-list show-delete="opts.showDelete"
+            show-reorder="opts.showReorder"
+            can-swipe="opts.shouldSwipe">
+    <ion-item ng-repeat="drink in drinks" 
+            class="row item-remove-animate">
 
-      <div layout="row">
-        <div flex>
-          <ion-list ng-controller="DrinkMenuCtrl">
-            <!-- <button>Catagories</button>
-            <ion-item ng-repeat="item in catagories">{{ item }}</ion-item>
-             -->
+      <div class='col'><h2>{{drink.name}}</h2></div>
+      <div class='col'>${{drink.price}}</div>
+      
+      <ion-option-button class="button-info"
+            ng-click="editDrink($index)">
+          Edit
+      </ion-option-button>
+      <ion-delete-button class="ion-minus-circled"
+                         ng-click="deleteDrink($index)">
+      </ion-delete-button>
+      <ion-reorder-button class="ion-navicon"
+                          on-reorder="moveItem(drink, $fromIndex, $toIndex)">
+      </ion-reorder-button>
 
-          <div class="list">
-           <div class="item item-input item-select">
-             <div class="input-label">
-               Catagory:
-             </div>
-               <select ng-model="drink">
-                 <option ng-repeat="item in catagories">{{ item }}</option>
-                          
-               </select>
-                 <div>{{drink}}</div>
-           </div>
-          </div>
-
-        </div>
-        <div flex>
-          <div class="list list-inset">
-            <label class="item item-input">
-              <i class="icon ion-search placeholder-icon"></i>
-              <input type="text" placeholder="Enter drink name">
-            </label>
-        </div>
-      </div>
-      <div flex>
-        <div class="list list-inset">
-          <label class="item item-input">
-            <i class="icon ion-search placeholder-icon"></i>
-            <input type="text" placeholder="Price">
-          </label>
-      </div>
-      </div>
-  </ion-content>
-</ion-view>
+    </ion-item>
+  </ion-list>  
+</ion-content>
+<ion-footer-bar align-title="center" class='bar-assertive'> 
+    <div class='title'>
+      <a href='#/main/drinkMenu/create'>Add a Drink</a>
+    </div>
+</ion-footer-bar>
