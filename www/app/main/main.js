@@ -4,7 +4,8 @@
 * Description
 */
 angular.module('app.main', [
-  'app.main.drinkMenu'
+  'app.main.drinkMenu',
+  'app.main.orders'
 ])
 .config(function($stateProvider) {
   $stateProvider
@@ -17,34 +18,28 @@ angular.module('app.main', [
 })
 .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher, $ionicPopover, $ionicHistory, $log, $rootScope, $store, Auth) {
 
-  $dispatcher.kickstart($store.getUser());
-  this.signout = function() {
-    Auth.signout();
-  };
+  // $dispatcher.kickstart($store.getUser());
+  // this.signout = function() {
+  //   Auth.signout();
+  // };
 
-  this.nav = function(what){
-    $log.log('$mdSidenav ', what);
-    $mdSidenav('left')[what]();
-  };
+  // this.nav = function(what){
+  //   $log.log('$mdSidenav ', what);
+  //   $mdSidenav('left')[what]();
+  // };
 
-  this.goAndClose = function(state) {
-    this.nav('close');
-    $state.go(state);
-  };
+  // this.goAndClose = function(state) {
+  //   this.nav('close');
+  //   $state.go(state);
+  // };
 
-  this.goBack = function(event) {
-    $log.log('going back', event);
-    $ionicHistory.goBack(event);
-  };
+  // this.goBack = function(event) {
+  //   $log.log('going back', event);
+  //   $ionicHistory.goBack(event);
+  // };
 
-  this.getPrevTitle = function() {
-    return $ionicHistory.backTitle();
-  };
-})
-.controller('LeftCtrl', function($scope, $ionicSideMenuDelegate){
+  // this.getPrevTitle = function() {
+  //   return $ionicHistory.backTitle();
+  // };
+});
 
-  $scope.toggleLeft = function() {
-  	console.log('toggle left');
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-})
