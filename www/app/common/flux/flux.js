@@ -14,10 +14,7 @@ angular.module('app.common.flux', [
      'toggleDelete',
      'toggleReorder',
      'addDrink',
-     'deleteDrink',
-     'moveItem'
-
-     // 'updateCart'
+     'deleteDrink'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
@@ -29,8 +26,7 @@ angular.module('app.common.flux', [
         $actions.toggleDelete,
         $actions.toggleReorder,
         $actions.addDrink,
-        $actions.deleteDrink,
-        $actions.moveItem
+        $actions.deleteDrink
       ],
 
       user: localStorageService.get('profile') || {},
@@ -91,12 +87,6 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      moveItem: function(item, fromIndex, toIndex) {
-        this.drinks.splice(fromIndex, 1);
-        this.drinks.splice(toIndex, 0, item);
-        this.emitChange();
-      },
-      
       exports: {
 
         getUser: function() {

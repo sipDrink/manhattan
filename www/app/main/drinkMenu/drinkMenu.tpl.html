@@ -1,18 +1,11 @@
 <ion-header-bar class="bar-dark">
   <div class="buttons">
-    <button class="button button-icon icon ion-ios7-minus-outline" 
-      ng-click="toggleDelete()"></button>
   <h1 class="title">Menu</h1>
-  <button class="button"
-      ng-click="toggleReorder()">
-        Reorder
-      </button>
   </div>
 </ion-header-bar>
  
 <ion-content class="drinkMenu-view" ng-controller="DrinkMenuCtrl">
   <ion-list show-delete="opts.showDelete"
-            show-reorder="opts.showReorder"
             can-swipe="opts.shouldSwipe">
     <ion-item ng-repeat="drink in drinks" 
             class="row item-remove-animate">
@@ -27,15 +20,14 @@
       <ion-delete-button class="ion-minus-circled"
                          ng-click="deleteDrink($index)">
       </ion-delete-button>
-      <ion-reorder-button class="ion-navicon"
-                          on-reorder="moveItem(drink, $fromIndex, $toIndex)">
-      </ion-reorder-button>
 
     </ion-item>
   </ion-list>  
 </ion-content>
 <ion-footer-bar align-title="center" class='bar-assertive'> 
-    <div class='title'>
+    <button class="button button-icon icon ion-ios7-minus-outline" 
+          ng-click="toggleDelete()"></button>
+   <!--  <div class='title'>
       <a href='#/main/drinkMenu/create'>Add a Drink</a>
-    </div>
+    </div> -->
 </ion-footer-bar>
