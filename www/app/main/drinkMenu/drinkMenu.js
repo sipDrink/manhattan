@@ -10,7 +10,6 @@ angular.module('app.main.drinkMenu', [
 	        	'menuContent':{
 			        templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
 			        controller: 'DrinkMenuCtrl as drinkMenu'
-	        		
 	        	}
 	        }
 	      });
