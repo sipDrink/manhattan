@@ -7,28 +7,58 @@ angular.module('app.common.flux', [
   'app.common.flux.mixins'
 ])
   .factory('$actions', function(flux) {
-    console.log('actions flux factory loaded')
+    console.log('actions flux factory loaded');
     return flux.actions([
      'receiveUser',
-     'receiveBars',
+     // 'receiveBars',
      'reset',
-     'updateCart'
+     'toggleDelete',
+     'toggleReorder',
+     'addDrink',
+     'deleteDrink',
+     'moveItem'
+
+     // 'updateCart'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
 
+    // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
+      // these actions will map to handlers with the same name that will be run
+        // when an action is triggered
       actions: [
         $actions.receiveUser,
-        $actions.receiveBars,
         $actions.reset,
-        $actions.updateCart
+        $actions.toggleDelete,
+        $actions.toggleReorder,
+        $actions.addDrink,
+        $actions.deleteDrink,
+        $actions.moveItem
+       //$actions.updateCart
       ],
 
+      // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      bars: [],
-      carts: {},
-      orders: {},
+      listOpts:{
+        showDelete: false,
+        showReorder: false,
+        shouldSwipe: true
+      },
+      //drinks are used for testing
+      drinks:[
+        { name: 'Grey Goose',category: 'Shot', price: 80 },
+        { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+        { name: 'Captain Morgan', category: 'Rum', price:43 },
+        { name: 'Fireball', category: 'Whisky', price: 32},
+        { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
+      ],
+      categories: [
+        'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
+        'Cognac', 'Vodka', 'Tequila', 'Rum'
+      ],
+     // carts: {},
+     // orders: {},
 
       receiveUser: function(nUser) {
         _.extend(this.user, nUser);
@@ -36,72 +66,81 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      receiveBars: function(bars) {
-        this.bars = _.map(bars, function(bar) {
-          bar.distance = ngGeodist.getDistance(this.user.coords, bar.loc, { format: true });
-          return bar;
-        }.bind(this));
-        this.emitChange();
-      },
-
       reset: function() {
-        this.bars = [];
         this.user = {};
-        this.carts = {};
-        this.orders = {};
+        // this.carts = {};
+        // this.orders = {};
         this.emitChange();
       },
 
-      updateCart: function(barId, item, drinkname) {
-        if (drinkname) {
-          // remove form cart
-          var cart = this.carts[barId];
-          cart.splice(_.findIndex(cart, { name: drinkname }), 1);
-        } else if (!this.carts[barId]) {
-          this.carts[barId] = [item];
-        } else {
-          this.carts[barId].push(item);
-        }
+      /* for drinkMenu */
+      toggleDelete: function(){
+        this.listOpts.showDelete = !this.listOpts.showDelete;
+        this.listOpts.showReorder = false;
         this.emitChange();
       },
+
+      toggleReorder: function(){
+        this.listOpts.showDelete = false;
+        this.listOpts.showReorder = !this.listOpts.showReorder; 
+        this.emitChange();
+      },
+
+      addDrink: function(){
+        this.listOpts.showDelete = false;
+        this.listOpts.showReorder = false;
+        this.drinks.push({id: this.drinks.length});
+        this.emitChange();
+      },
+
+      deleteDrink: function(index){
+        this.drinks.splice(index, 1);
+        this.emitChange();
+      },
+
+      moveItem: function(item, fromIndex, toIndex) {
+        this.drinks.splice(fromIndex, 1);
+        this.drinks.splice(toIndex, 0, item);
+        this.emitChange();
+      },
+      // updateCart: function(barId, item, drinkname) {
+      //   if (drinkname) {
+      //     // remove form cart
+      //     var cart = this.carts[barId];
+      //     cart.splice(_.findIndex(cart, { name: drinkname }), 1);
+      //   } else if (!this.carts[barId]) {
+      //     this.carts[barId] = [item];
+      //   } else {
+      //     this.carts[barId].push(item);
+      //   }
+      //   this.emitChange();
+      // },
       exports: {
-        getCart: function(barId) {
-          return this.carts[barId];
-        },
+        // getCart: function(barId) {
+        //   return this.carts[barId];
+        // },
 
         getUser: function() {
           return this.user;
         },
-
-        fetchBars: function(options) {
-          var that = this;
-          $log.log('fetching bars', that.user.private_channel);
-          $dispatcher.pub({
-            actions: {
-              'get': {
-                query: options.query,
-                options: options.extra || {}
-              }
-            },
-            respondTo: {
-              action: 'receiveBars',
-              channel: that.user.private_channel
-            }
-          }, 'bars');
+        getListOpts: function(){
+          return this.listOpts;
         },
-
-        getBars: function(query, options) {
-          return this.bars;
+        getDrinks: function(){
+          return this.drinks;
         },
-        getBar: function(id) {
-          return _.find(this.bars, { _id: id });
+        getCategories: function(){
+          return this.categories;
         }
+
       }
     });
   })
   .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions, $rootScope){
+    // _alias should always be 'vendor' for this app
     var _alias = CONFIG.alias;
     var userGlobal = 'broadcast_user';
+    // guarantees that the only messages the app acts on are directed at 'vendor'
     var _pnCb = function(message) {
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
@@ -130,7 +169,7 @@ angular.module('app.common.flux', [
       },
 
       sub: function(channel) {
-        $log.log('subscribing to ' +channel)
+        $log.log('subscribing to ' +channel);
         PubNub.ngSubscribe({
           channel: channel,
           callback: _pnCb,

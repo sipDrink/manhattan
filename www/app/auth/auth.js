@@ -13,7 +13,7 @@ angular.module('app.auth', [])
         .then(function(user) {
           // $dispatcher.kickstart(user);
           // $actions.updateMe(user);
-//          $state.go('sip.main.bars.list');
+          $state.go('app.main.drinkMenu');
           $log('signed in against Auth0');
         })
         .catch(function(err) {
@@ -46,7 +46,7 @@ angular.module('app.auth', [])
 
         $log.log('CHANNEL', profile.private_channel);
         localStorageService.set('profile', profile);
-        $actions.receiveUser(profile);
+        // $actions.receiveUser(profile);
         defer.resolve(profile);
         // $state.go('sip.main.bars.list');
       }, function(error) {
