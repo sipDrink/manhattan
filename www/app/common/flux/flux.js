@@ -10,7 +10,6 @@ angular.module('app.common.flux', [
     console.log('actions flux factory loaded');
     return flux.actions([
      'receiveUser',
-     // 'receiveBars',
      'reset',
      'toggleDelete',
      'toggleReorder',
@@ -35,7 +34,6 @@ angular.module('app.common.flux', [
         $actions.addDrink,
         $actions.deleteDrink,
         $actions.moveItem
-       //$actions.updateCart
       ],
 
       // these are the actual stores of the data in $store
@@ -57,8 +55,6 @@ angular.module('app.common.flux', [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
-     // carts: {},
-     // orders: {},
 
       receiveUser: function(nUser) {
         _.extend(this.user, nUser);
@@ -68,8 +64,6 @@ angular.module('app.common.flux', [
 
       reset: function() {
         this.user = {};
-        // this.carts = {};
-        // this.orders = {};
         this.emitChange();
       },
 
@@ -103,22 +97,8 @@ angular.module('app.common.flux', [
         this.drinks.splice(toIndex, 0, item);
         this.emitChange();
       },
-      // updateCart: function(barId, item, drinkname) {
-      //   if (drinkname) {
-      //     // remove form cart
-      //     var cart = this.carts[barId];
-      //     cart.splice(_.findIndex(cart, { name: drinkname }), 1);
-      //   } else if (!this.carts[barId]) {
-      //     this.carts[barId] = [item];
-      //   } else {
-      //     this.carts[barId].push(item);
-      //   }
-      //   this.emitChange();
-      // },
+
       exports: {
-        // getCart: function(barId) {
-        //   return this.carts[barId];
-        // },
 
         getUser: function() {
           return this.user;
