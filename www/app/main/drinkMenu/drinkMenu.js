@@ -8,4 +8,7 @@ angular.module('app.main.drinkMenu', [])
 	      });
 	})
 	.controller('DrinkMenuCtrl', function($scope, $state, $actions){
-	});
+	 //data for testing only
+   $scope.catagories = ['Wine', 'Beer', 'Scotch', 'Whiskey', 'Shots'];
+   
+  });

@@ -1,5 +1,58 @@
 <ion-view title="Menu">
   <ion-content class="drinkMenu-view">
-     <h1>Inventory View</h1>
+    <h1>Menu</h1>
+      <div layout="row">
+        <div flex>
+        </div>
+        <div flex>
+         <div class="list list-inset">
+           <label class="item item-input">
+             <i class="icon ion-search placeholder-icon"></i>
+             <input type="text" placeholder="Search">
+           </label>
+         </div>
+        </div>
+        
+        <div flex>  
+        </div>
+      </div>
+
+      <div layout="row">
+        <div flex>
+          <ion-list ng-controller="DrinkMenuCtrl">
+            <!-- <button>Catagories</button>
+            <ion-item ng-repeat="item in catagories">{{ item }}</ion-item>
+             -->
+
+          <div class="list">
+           <div class="item item-input item-select">
+             <div class="input-label">
+               Catagory:
+             </div>
+               <select ng-model="drink">
+                 <option ng-repeat="item in catagories">{{ item }}</option>
+                          
+               </select>
+                 <div>{{drink}}</div>
+           </div>
+          </div>
+
+        </div>
+        <div flex>
+          <div class="list list-inset">
+            <label class="item item-input">
+              <i class="icon ion-search placeholder-icon"></i>
+              <input type="text" placeholder="Enter drink name">
+            </label>
+        </div>
+      </div>
+      <div flex>
+        <div class="list list-inset">
+          <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="Price">
+          </label>
+      </div>
+      </div>
   </ion-content>
 </ion-view>
