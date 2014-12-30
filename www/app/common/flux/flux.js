@@ -53,6 +53,14 @@ angular.module('app.common.flux', [
       ],
      
      // orders: {},
+     //orders are used for testing
+     orders:[
+       { name: 'Grey Goose',category: 'Shot', price: 80 },
+       { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+       { name: 'Captain Morgan', category: 'Rum', price:43 },
+       { name: 'Fireball', category: 'Whisky', price: 32},
+       { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
+     ],
 
       receiveUser: function(nUser) {
         _.extend(this.user, nUser);
@@ -107,6 +115,9 @@ angular.module('app.common.flux', [
         },
         getDrinks: function(){
           return this.drinks;
+        },
+        getOrders: function(){
+          return this.orders;
         },
         getCategories: function(){
           return this.categories;
