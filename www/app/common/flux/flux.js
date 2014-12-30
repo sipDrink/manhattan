@@ -56,13 +56,16 @@ angular.module('app.common.flux', [
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
 
-      receiveUser: function(nUser) {
-        _.extend(this.user, nUser);
+      receiveUser: function(profile) {
+        // receives profile data from auth0 and sets it to $store.user
+        _.extend(this.user, profile);
         localStorageService.set('profile', this.user);
+        $log.log('receiving user data to store to ls.profile', this.user);
         this.emitChange();
       },
 
       reset: function() {
+        $log.log('resetting $store');
         this.user = {};
         this.emitChange();
       },
@@ -116,7 +119,7 @@ angular.module('app.common.flux', [
       }
     });
   })
-  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions, $rootScope){
+  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions){
     // _alias should always be 'vendor' for this app
     var _alias = CONFIG.alias;
     var userGlobal = 'broadcast_user';
@@ -154,7 +157,7 @@ angular.module('app.common.flux', [
           channel: channel,
           callback: _pnCb,
           error: function(e) {
-            $log.error(e);
+            $log.error('error subscribing to channel:', channel, 'with error:', e);
           }
         });
       },
