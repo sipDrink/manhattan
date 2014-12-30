@@ -15,43 +15,45 @@ angular.module('starter', [
   'LocalStorageModule', 'flux',
   'auth0', 'ngGeodist'
   ])
-.config(function($stateProvider, $urlRouterProvider, authProvider) {
-  // $httpProvider.interceptors.push('jwtInterceptor');
+  .config(function($stateProvider, $urlRouterProvider, authProvider) {
 
-  //$urlRouterProvider.otherwise('/auth');
-  $urlRouterProvider.otherwise('/main/drinkMenu');
+    $urlRouterProvider.otherwise('/main/drinkMenu');
 
-  $stateProvider
-    .state('app', {
-      abstract: true, //not sure what this does yet
-      url: '',
-      template: '<ion-nav-view></ion-nav-view>',
-      controller: 'AppController as app'
+    $stateProvider
+      .state('app', {
+        abstract: true, //not sure what this does yet
+        url: '',
+        template: '<ion-nav-view></ion-nav-view>',
+        controller: 'AppController as app'
+      });
+
+    authProvider.init({
+      domain: 'sipdrink.auth0.com',
+      clientID: 'avcSZW5cgrgNHUm493pnRxIvCstzdnNs',
+      loginState: 'app.auth'
     });
 
-  authProvider.init({
-    domain: 'sipdrink.auth0.com',
-    clientID: 'avcSZW5cgrgNHUm493pnRxIvCstzdnNs',
-    loginState: 'app.auth'
-  });
+  })
+  .controller('AppController', function($scope, $store, $log) {
 
-})
-.controller('AppController', function($scope) {
-  // $store.bindTo($scope, function() {
-  //   this.user = $store.getUser();
-  // }.bind(this));
-})
-.run(function($ionicPlatform, auth) {
-  auth.hookEvents();
+    $store.bindTo($scope, function() {
+      // sets AppController's $scope.user to $store.user
+      this.user = $store.getUser();
+      $log.log('AppController heard a change on $store');
+    }.bind(this));
 
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+  })
+  .run(function($ionicPlatform, $log, $state, auth) {
+    auth.hookEvents();
+
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if(window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if(window.StatusBar) {
+        StatusBar.styleDefault();
+      }
+    });
   });
-})

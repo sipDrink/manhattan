@@ -11,10 +11,10 @@ angular.module('app.auth', [])
     this.signIn = function() {
       Auth.signin()
         .then(function(user) {
-          // $dispatcher.kickstart(user);
+          $dispatcher.kickstart(user);
           // $actions.updateMe(user);
-//          $state.go('sip.main.bars.list');
-          $log('signed in against Auth0');
+          $state.go('app.main.orders');
+          $log.log('signed in against Auth0');
         })
         .catch(function(err) {
           $log.error(err);
@@ -39,16 +39,15 @@ angular.module('app.auth', [])
         localStorageService.set('token', idToken);
         localStorageService.set('refreshToken', refreshToken);
         if (!profile.auth_key) {
-          profile.auth_key = profile.identities[0].access_token;
-          $log.log('auth_key', profile);
-          // $log.log('auth_key', profile.auth_key);
+          profile.auth_key = profile.user_id;
+          // there should always be an auth_key property on what we get back from auth0
+          // if there isnt:
+            // set auth_key to 'auth0|####'
         }
 
-        $log.log('CHANNEL', profile.private_channel);
-        localStorageService.set('profile', profile);
+        // localStorageService.set('profile', profile);
         $actions.receiveUser(profile);
         defer.resolve(profile);
-        // $state.go('sip.main.bars.list');
       }, function(error) {
         defer.reject(error);
         $log.error("There was an error logging in", error);

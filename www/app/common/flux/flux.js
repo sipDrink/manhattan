@@ -22,7 +22,10 @@ angular.module('app.common.flux', [
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
 
+    // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
+      // these actions will map to handlers with the same name that will be run
+        // when an action is triggered
       actions: [
         $actions.receiveUser,
         $actions.reset,
@@ -33,6 +36,7 @@ angular.module('app.common.flux', [
         $actions.moveItem
       ],
 
+      // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
       listOpts:{
         showDelete: false,
@@ -51,18 +55,18 @@ angular.module('app.common.flux', [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
-     
-     // orders: {},
 
-      receiveUser: function(nUser) {
-        _.extend(this.user, nUser);
+      receiveUser: function(profile) {
+        // receives profile data from auth0 and sets it to $store.user
+        _.extend(this.user, profile);
         localStorageService.set('profile', this.user);
+        $log.log('receiving user data to store to ls.profile', this.user);
         this.emitChange();
       },
 
       reset: function() {
+        $log.log('resetting $store');
         this.user = {};
-        // this.orders = {};
         this.emitChange();
       },
 
@@ -96,7 +100,7 @@ angular.module('app.common.flux', [
         this.drinks.splice(toIndex, 0, item);
         this.emitChange();
       },
-      
+
       exports: {
 
         getUser: function() {
@@ -111,12 +115,15 @@ angular.module('app.common.flux', [
         getCategories: function(){
           return this.categories;
         }
+
       }
     });
   })
-  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions, $rootScope){
+  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions){
+    // _alias should always be 'vendor' for this app
     var _alias = CONFIG.alias;
     var userGlobal = 'broadcast_user';
+    // guarantees that the only messages the app acts on are directed at 'vendor'
     var _pnCb = function(message) {
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
@@ -150,7 +157,7 @@ angular.module('app.common.flux', [
           channel: channel,
           callback: _pnCb,
           error: function(e) {
-            $log.error(e);
+            $log.error('error subscribing to channel:', channel, 'with error:', e);
           }
         });
       },
