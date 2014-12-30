@@ -12,5 +12,11 @@ angular.module('app.main.orders', [])
     });
 })
 .controller('OrdersCtrol', function($scope, $actions, $store){
+    $store.bindTo($scope, function(){
+      $scope.opts = $store.getListOpts();
+      $scope.orders = $store.getOrders();
+    });
+
+    console.log($scope.orders);
 
 });
