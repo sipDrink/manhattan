@@ -13,7 +13,8 @@ angular.module('app.auth', [])
         .then(function(user) {
           // $dispatcher.kickstart(user);
           // $actions.updateMe(user);
-//          $state.go('sip.main.bars.list');
+
+          $state.go('app.main.drinkMenu');
           $log('signed in against Auth0');
         })
         .catch(function(err) {
@@ -48,7 +49,7 @@ angular.module('app.auth', [])
         localStorageService.set('profile', profile);
         $actions.receiveUser(profile);
         defer.resolve(profile);
-        // $state.go('sip.main.bars.list');
+        $state.go('sip.main.bars.list');
       }, function(error) {
         defer.reject(error);
         $log.error("There was an error logging in", error);
@@ -56,7 +57,19 @@ angular.module('app.auth', [])
       return defer.promise;
     };
 
+    var signout = function() {
+      auth.signout();
+      $actions.reset();
+      localStorageService.remove('profile');
+      localStorageService.remove('token');
+      localStorageService.remove('refreshToken');
+      // $mdSidenav('left').close();
+      $ionicHistory.clearCache();
+      $state.go('app.auth');
+    };
+
     return {
-      signin: signin
+      signin: signin,
+      signout: signout
     };
   });

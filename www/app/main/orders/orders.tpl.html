@@ -1,0 +1,35 @@
+<ion-header-bar class="bar-dark">
+  <div class="buttons">
+  
+  <h1 class="title">Orders</h1>
+  
+  </div>
+</ion-header-bar>
+
+<ion-content>
+  <div class="orderContainer">
+    <div class="orderCard" ng-repeat="order in orders">
+      <div class="customerInfo">
+        {{order.customer.name}}'s Order
+      </div>
+      <div class="orderInfo">
+        <table>
+          <tr ng-repeat="drink in order.drinks">
+            <td class="drinkName">{{drink.name}}</td>
+            <td class="drinkQuantity">{{drink.quantity}}</td>
+          </tr>
+        </table>
+
+        <div class="buttonsContainer">
+
+          <md-button class="md-fab statusButton">
+            Status
+          </md-button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+  

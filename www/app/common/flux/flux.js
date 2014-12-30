@@ -7,12 +7,17 @@ angular.module('app.common.flux', [
   'app.common.flux.mixins'
 ])
   .factory('$actions', function(flux) {
-    console.log('actions flux factory loaded')
+    console.log('actions flux factory loaded');
     return flux.actions([
      'receiveUser',
-     'receiveBars',
      'reset',
-     'updateCart'
+     'toggleDelete',
+     'toggleReorder',
+     'addDrink',
+     'deleteDrink',
+     'moveItem'
+
+     // 'updateCart'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
@@ -20,15 +25,60 @@ angular.module('app.common.flux', [
     return flux.store({
       actions: [
         $actions.receiveUser,
-        $actions.receiveBars,
         $actions.reset,
-        $actions.updateCart
+        $actions.toggleDelete,
+        $actions.toggleReorder,
+        $actions.addDrink,
+        $actions.deleteDrink,
+        $actions.moveItem
       ],
 
       user: localStorageService.get('profile') || {},
-      bars: [],
-      carts: {},
-      orders: {},
+      listOpts:{
+        showDelete: false,
+        showReorder: false,
+        shouldSwipe: true
+      },
+      //drinks are used for testing
+      drinks:[
+        { name: 'Grey Goose',category: 'Shot', price: 80 },
+        { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+        { name: 'Captain Morgan', category: 'Rum', price:43 },
+        { name: 'Fireball', category: 'Whisky', price: 32},
+        { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
+      ],
+      categories: [
+        'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
+        'Cognac', 'Vodka', 'Tequila', 'Rum'
+      ],
+     
+     //orders: {} are used for testing
+     orders:[
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
+                  { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Jessica'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 8},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 5}],
+         customer: {name: 'Daniel'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 1},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 4},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 2}],
+         customer: {name: 'Louie'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Wuwu'},
+         status: 'paidFor'}
+     ],
 
       receiveUser: function(nUser) {
         _.extend(this.user, nUser);
@@ -36,65 +86,59 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      receiveBars: function(bars) {
-        this.bars = _.map(bars, function(bar) {
-          bar.distance = ngGeodist.getDistance(this.user.coords, bar.loc, { format: true });
-          return bar;
-        }.bind(this));
-        this.emitChange();
-      },
-
       reset: function() {
-        this.bars = [];
         this.user = {};
-        this.carts = {};
-        this.orders = {};
+        // this.orders = {};
         this.emitChange();
       },
 
-      updateCart: function(barId, item, drinkname) {
-        if (drinkname) {
-          // remove form cart
-          var cart = this.carts[barId];
-          cart.splice(_.findIndex(cart, { name: drinkname }), 1);
-        } else if (!this.carts[barId]) {
-          this.carts[barId] = [item];
-        } else {
-          this.carts[barId].push(item);
-        }
+      /* for drinkMenu */
+      toggleDelete: function(){
+        this.listOpts.showDelete = !this.listOpts.showDelete;
+        this.listOpts.showReorder = false;
         this.emitChange();
       },
+
+      toggleReorder: function(){
+        this.listOpts.showDelete = false;
+        this.listOpts.showReorder = !this.listOpts.showReorder; 
+        this.emitChange();
+      },
+
+      addDrink: function(){
+        this.listOpts.showDelete = false;
+        this.listOpts.showReorder = false;
+        this.drinks.push({id: this.drinks.length});
+        this.emitChange();
+      },
+
+      deleteDrink: function(index){
+        this.drinks.splice(index, 1);
+        this.emitChange();
+      },
+
+      moveItem: function(item, fromIndex, toIndex) {
+        this.drinks.splice(fromIndex, 1);
+        this.drinks.splice(toIndex, 0, item);
+        this.emitChange();
+      },
+      
       exports: {
-        getCart: function(barId) {
-          return this.carts[barId];
-        },
 
         getUser: function() {
           return this.user;
         },
-
-        fetchBars: function(options) {
-          var that = this;
-          $log.log('fetching bars', that.user.private_channel);
-          $dispatcher.pub({
-            actions: {
-              'get': {
-                query: options.query,
-                options: options.extra || {}
-              }
-            },
-            respondTo: {
-              action: 'receiveBars',
-              channel: that.user.private_channel
-            }
-          }, 'bars');
+        getListOpts: function(){
+          return this.listOpts;
         },
-
-        getBars: function(query, options) {
-          return this.bars;
+        getDrinks: function(){
+          return this.drinks;
         },
-        getBar: function(id) {
-          return _.find(this.bars, { _id: id });
+        getOrders: function(){
+          return this.orders;
+        },
+        getCategories: function(){
+          return this.categories;
         }
       }
     });
@@ -130,7 +174,7 @@ angular.module('app.common.flux', [
       },
 
       sub: function(channel) {
-        $log.log('subscribing to ' +channel)
+        $log.log('subscribing to ' +channel);
         PubNub.ngSubscribe({
           channel: channel,
           callback: _pnCb,
