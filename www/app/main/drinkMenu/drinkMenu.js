@@ -2,24 +2,24 @@ angular.module('app.main.drinkMenu', [
 	'app.main.drinkMenu.drink'
 	])
 	.config(function($stateProvider) {
-	    $stateProvider
-	      .state('app.main.drinkMenu', {
-	        url: '/drinkMenu',
-	        views:{
-	        	'menuContent':{
-			        templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-			        controller: 'DrinkMenuCtrl as drinkMenu'
-	        	}
-	        }
-	      });
+	  $stateProvider
+	    .state('app.main.drinkMenu', {
+	      url: '/drinkMenu',
+	       views:{
+	     	'menuContent':{
+		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
+		       controller: 'DrinkMenuCtrl as drinkMenu'
+	      	}
+	      }
+	    });
 	})
-	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal){
-		  
-	  $store.bindTo($scope, function(){
-	  	$scope.opts = $store.getListOpts();
-		  $scope.drinks = $store.getDrinks();
-	  });
 
+	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
+
+      $store.bindTo($scope, function() {
+        $scope.opts = $store.getListOpts();
+        $scope.drinks = $store.getDrinks();
+      });
 
 		  //calling actions from the view
 	  $scope.toggleDelete = function(){
@@ -63,4 +63,23 @@ angular.module('app.main.drinkMenu', [
 	    // Execute action
 	  });
 
-	});
+      $scope.closeModal = function() {
+        $scope.modal.hide();
+      };
+
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+      // Execute action
+    });
+
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+      // Execute action
+    });
+
+  });
