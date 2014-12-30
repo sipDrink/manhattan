@@ -55,6 +55,34 @@ angular.module('app.common.flux', [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
+     
+     //orders: {} are used for testing
+     orders:[
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
+                  { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Jessica'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 8},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 5}],
+         customer: {name: 'Daniel'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 1},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 4},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 2}],
+         customer: {name: 'Louie'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Wuwu'},
+         status: 'paidFor'}
+     ],
 
       receiveUser: function(profile) {
         // receives profile data from auth0 and sets it to $store.user
@@ -111,6 +139,9 @@ angular.module('app.common.flux', [
         },
         getDrinks: function(){
           return this.drinks;
+        },
+        getOrders: function(){
+          return this.orders;
         },
         getCategories: function(){
           return this.categories;

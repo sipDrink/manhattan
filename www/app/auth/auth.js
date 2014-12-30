@@ -13,8 +13,10 @@ angular.module('app.auth', [])
         .then(function(user) {
           $dispatcher.kickstart(user);
           // $actions.updateMe(user);
+
           $state.go('app.main.orders');
           $log.log('signed in against Auth0');
+
         })
         .catch(function(err) {
           $log.error(err);
