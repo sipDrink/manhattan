@@ -5,7 +5,7 @@ angular.module('app.main.drinkMenu', [
 	  $stateProvider
 	    .state('app.main.drinkMenu', {
 	      url: '/drinkMenu',
-	       views:{
+	      views:{
 	     	'menuContent':{
 		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
 		       controller: 'DrinkMenuCtrl as drinkMenu'
