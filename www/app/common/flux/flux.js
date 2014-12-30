@@ -15,7 +15,8 @@ angular.module('app.common.flux', [
      'toggleReorder',
      'addDrink',
      'deleteDrink',
-     'moveItem'
+     'moveItem',
+     'changeOrderStatus'
 
      // 'updateCart'
     ]);
@@ -33,7 +34,8 @@ angular.module('app.common.flux', [
         $actions.toggleReorder,
         $actions.addDrink,
         $actions.deleteDrink,
-        $actions.moveItem
+        $actions.moveItem,
+        $actions.changeOrderStatus
       ],
 
       // these are the actual stores of the data in $store
@@ -120,6 +122,11 @@ angular.module('app.common.flux', [
 
       deleteDrink: function(index){
         this.drinks.splice(index, 1);
+        this.emitChange();
+      },
+
+      changeOrderStatus: function(index, status) {
+        this.drinks[index].status = status;
         this.emitChange();
       },
 

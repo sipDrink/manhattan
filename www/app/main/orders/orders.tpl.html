@@ -20,11 +20,19 @@
           </tr>
         </table>
 
-        <div class="buttonsContainer">
+        <div class="slideBoxContainer" $index>
 
-          <md-button class="md-fab statusButton">
-            Status
-          </md-button>
+          <ion-slide-box show-pager="false" on-slide-changed="changeStatus(this, $index)">
+            <ion-slide>
+              <div class="box blue"><h1>Paid For</h1></div>
+            </ion-slide>
+            <ion-slide>
+              <div class="box yellow"><h1>Processed</h1></div>
+            </ion-slide>
+            <ion-slide>
+              <div class="box pink"><h1>Redeemed</h1></div>
+            </ion-slide>
+          </ion-slide-box>
           
         </div>
       </div>
