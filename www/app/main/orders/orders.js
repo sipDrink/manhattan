@@ -9,8 +9,11 @@ angular.module('app.main.orders', [])
             controller: 'OrdersCtrl'
           }
         }
-      });
-    })
+    });
+  })
   .controller('OrdersCtrl', function($scope, $actions, $store){
-
+    $store.bindTo($scope, function(){
+      $scope.opts = $store.getListOpts();
+      $scope.orders = $store.getOrders();
+    });
   });
