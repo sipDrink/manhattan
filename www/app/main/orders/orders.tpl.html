@@ -10,10 +10,15 @@
   <div class="orderContainer">
     <div class="orderCard" ng-repeat="order in orders">
       <div class="customerInfo">
-        Customer Info Here
+        {{order.customer.name}}'s Order
       </div>
       <div class="orderInfo">
-        {{order.name}}
+        <table>
+          <tr ng-repeat="drink in order.drinks">
+            <td class="drinkName">{{drink.name}}</td>
+            <td class="drinkQuantity">{{drink.quantity}}</td>
+          </tr>
+        </table>
 
         <div class="buttonsContainer">
 
