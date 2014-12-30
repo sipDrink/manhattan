@@ -14,7 +14,8 @@ angular.module('app.common.flux', [
      'toggleDelete',
      'toggleReorder',
      'addDrink',
-     'deleteDrink'
+     'deleteDrink',
+     'changeOrderStatus'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
@@ -29,7 +30,8 @@ angular.module('app.common.flux', [
         $actions.toggleDelete,
         $actions.toggleReorder,
         $actions.addDrink,
-        $actions.deleteDrink
+        $actions.deleteDrink,
+        $actions.changeOrderStatus
       ],
 
       // these are the actual stores of the data in $store
@@ -117,6 +119,11 @@ angular.module('app.common.flux', [
 
       deleteDrink: function(index){
         this.drinks.splice(index, 1);
+        this.emitChange();
+      },
+
+      changeOrderStatus: function(index, status) {
+        this.drinks[index].status = status;
         this.emitChange();
       },
 

@@ -14,9 +14,15 @@ angular.module('app.main.orders', [])
 })
 .controller('OrdersCtrol', function($scope, $actions, $store){
     $store.bindTo($scope, function(){
-      $scope.opts = $store.getListOpts();
+      //$scope.opts = $store.getListOpts();
       $scope.orders = $store.getOrders();
     });
 
-    console.log($scope.orders);
+    var status = ['paidFor', 'processed', 'redeemed'];
+
+    $scope.changeStatus = function(order, index) {
+      console.log(order, index);
+      $actions.changeOrderStatus(order, status[index]);
+    };
+
   });
