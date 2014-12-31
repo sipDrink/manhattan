@@ -14,7 +14,7 @@ angular.module('app.common.flux', [
      'toggleDelete',
      'addDrink',
      'deleteDrink',
-     'changeOrderStatus'
+     'changeOrderStatus',
      'cancelEdit',
      'editDrink',
      'confirmEdit'
@@ -32,7 +32,7 @@ angular.module('app.common.flux', [
         $actions.toggleDelete,
         $actions.addDrink,
         $actions.deleteDrink,
-        $actions.changeOrderStatus
+        $actions.changeOrderStatus,
         $actions.cancelEdit,
         $actions.editDrink,
         $actions.confirmEdit
