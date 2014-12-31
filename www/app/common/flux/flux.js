@@ -40,13 +40,13 @@ angular.module('app.common.flux', [
 
       // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      listOpts:{
+      listOpts: {
         showDelete: false,
         showReorder: false,
         shouldSwipe: true
       },
       //drinks are used for testing
-      drinks:[
+      drinks: [
         { name: 'Grey Goose',category: 'Shot', price: 80 },
         { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
         { name: 'Captain Morgan', category: 'Rum', price:43 },
@@ -59,7 +59,7 @@ angular.module('app.common.flux', [
       ],
      
      //orders: {} are used for testing
-     orders:[
+     orders: [
        { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
                   { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
                   { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
@@ -86,17 +86,22 @@ angular.module('app.common.flux', [
          status: 'paidFor'}
      ],
 
+      reset: function() {
+        $log.log('resetting $store');
+        this.user = {};
+        this.drinks = [];
+        this.orders = [];
+        this.categories = [];
+        this.listOpts = {};
+        this.emitChange();
+      },
+
+      /* for auth */
       receiveUser: function(profile) {
         // receives profile data from auth0 and sets it to $store.user
         _.extend(this.user, profile);
         localStorageService.set('profile', this.user);
         $log.log('receiving user data to store to ls.profile', this.user);
-        this.emitChange();
-      },
-
-      reset: function() {
-        $log.log('resetting $store');
-        this.user = {};
         this.emitChange();
       },
 
@@ -125,18 +130,25 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      changeOrderStatus: function(orderIndex, status) {
-        this.orders[orderIndex].status = status;
-        console.log(this.orders);
-        this.emitChange();
-      },
-
       moveItem: function(item, fromIndex, toIndex) {
         this.drinks.splice(fromIndex, 1);
         this.drinks.splice(toIndex, 0, item);
         this.emitChange();
       },
 
+      /* for orders */
+      changeOrderStatus: function(orderIndex, status) {
+        this.orders[orderIndex].status = status;
+        console.log(this.orders);
+        this.emitChange();
+      },
+
+      receiveOrder: function(order) {
+        this.orders.push(order);
+        this.emitChange();
+      },
+
+      /* GETTERS */
       exports: {
 
         getUser: function() {
