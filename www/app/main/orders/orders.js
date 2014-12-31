@@ -9,7 +9,6 @@ angular.module('app.main.orders', [])
             controller: 'OrdersCtrl'
           }
         }
-      }
     });
   })
   .controller('OrdersCtrl', function($scope, $actions, $store){
@@ -35,5 +34,7 @@ angular.module('app.main.orders', [])
         // setTimeout before calling $dispatcher.pub changes
       $actions.changeOrderStatus(orderIndex, status[index]);
     };
+
+
 
   });
