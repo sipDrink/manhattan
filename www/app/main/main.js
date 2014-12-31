@@ -13,7 +13,11 @@ angular.module('app.main', [
         url: '/main',
         abstract: true,
         templateUrl: 'app/main/main.tpl.html',
-        controller: 'MainCtrl as main'
+        controller: 'MainCtrl as main'/*,
+        data: {
+          requiresLogin: true
+        }
+        */
       });
   })
   .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher, $ionicPopover, $ionicHistory, $log, $rootScope, $store, Auth) {
