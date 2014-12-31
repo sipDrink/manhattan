@@ -5,6 +5,8 @@ ion-item#bar-pic {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+<<<<<<< HEAD
+=======
   margin: 15px;
 }
 .orderCard {
@@ -60,18 +62,87 @@ ion-item#bar-pic {
   background-color: #ff0;
 }
 .question {
+>>>>>>> afc0e9e3c21a18525d72c6439d8383fc9317ec4d
   margin: 15px;
 }
-.question h2 {
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  width: 340px;
+  margin-bottom: 15px;
+  background-color: #f7f7f7;
+  border: 2px solid #808080;
+  border-radius: 10px;
   text-align: center;
 }
-.category {
-  font-size: 1.6em;
-  vertical-align: center;
-  padding: 15px;
+.orderCard .customerInfo {
+  padding: 10px;
+  border-bottom: 1px solid #808080;
+  width: 90%;
+  margin: auto;
+  font-size: 1.5em;
 }
-.arrow-icon {
-  float: right;
+.orderCard .orderInfo {
+  width: 100%;
+}
+.orderCard table {
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  verticle-align: middle;
+}
+.orderCard table td {
+  height: 40px;
+}
+.orderCard .drinkName {
+  text-align: left;
+}
+.orderCard .drinkQuantity {
+  text-align: right;
+}
+.orderCard .slideBoxContainer {
+  width: 100%;
+  border-top: 2px solid #808080;
+  margin: auto;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  background-color: #ff6347;
+}
+.orderCard .statusButton {
+  width: 80px;
+  height: 80px;
+  background-color: #ff0;
+}
+.drink-view {
+  padding: 0 50px 15px;
+}
+.drink-view form {
+  font-size: 2em;
+  margin: 30px 0 40px 0;
+}
+.drink-view select {
+  font-size: 1.4em;
+  color: rgba(0,0,0,0.73);
+}
+.drink-view input {
+  font-size: 0.7em;
+}
+.drink-view .input-label {
+  color: rgba(0,0,0,0.372);
+  font-size: 1.4em;
+  padding-left: 0;
+}
+.drink-view-btn {
+  width: 68px;
+  margin: 5px;
+  font-size: 0.8em;
+}
+.drink-view md-input-group {
+  padding-left: 16px;
 }
 a {
   text-decoration: none;
