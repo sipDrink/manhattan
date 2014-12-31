@@ -20,9 +20,9 @@
           </tr>
         </table>
 
-        <div class="slideBoxContainer" $index>
+        <div class="slideBoxContainer" ng-init="orderIndex=$index">
 
-          <ion-slide-box show-pager="false" on-slide-changed="changeStatus(this, $index)">
+          <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)">
             <ion-slide>
               <div class="box blue"><h1>Paid For</h1></div>
             </ion-slide>
