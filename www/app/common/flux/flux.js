@@ -12,7 +12,6 @@ angular.module('app.common.flux', [
      'receiveUser',
      'reset',
      'toggleDelete',
-     'toggleReorder',
      'addDrink',
      'deleteDrink',
      'changeOrderStatus'
@@ -28,7 +27,6 @@ angular.module('app.common.flux', [
         $actions.receiveUser,
         $actions.reset,
         $actions.toggleDelete,
-        $actions.toggleReorder,
         $actions.addDrink,
         $actions.deleteDrink,
         $actions.changeOrderStatus
@@ -36,13 +34,13 @@ angular.module('app.common.flux', [
 
       // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      listOpts:{
+      listOpts: {
         showDelete: false,
         showReorder: false,
         shouldSwipe: true
       },
       //drinks are used for testing
-      drinks:[
+      drinks: [
         { name: 'Grey Goose',category: 'Shot', price: 80 },
         { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
         { name: 'Captain Morgan', category: 'Rum', price:43 },
@@ -55,7 +53,7 @@ angular.module('app.common.flux', [
       ],
      
      //orders: {} are used for testing
-     orders:[
+     orders: [
        { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
                   { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
                   { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
@@ -82,6 +80,17 @@ angular.module('app.common.flux', [
          status: 'paidFor'}
      ],
 
+      reset: function() {
+        $log.log('resetting $store');
+        this.user = {};
+        this.drinks = [];
+        this.orders = [];
+        this.categories = [];
+        this.listOpts = {};
+        this.emitChange();
+      },
+
+      /* for auth */
       receiveUser: function(profile) {
         // receives profile data from auth0 and sets it to $store.user
         _.extend(this.user, profile);
@@ -90,23 +99,10 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      reset: function() {
-        $log.log('resetting $store');
-        this.user = {};
-        // this.orders = {};
-        this.emitChange();
-      },
-
       /* for drinkMenu */
       toggleDelete: function(){
         this.listOpts.showDelete = !this.listOpts.showDelete;
         this.listOpts.showReorder = false;
-        this.emitChange();
-      },
-
-      toggleReorder: function(){
-        this.listOpts.showDelete = false;
-        this.listOpts.showReorder = !this.listOpts.showReorder; 
         this.emitChange();
       },
 
@@ -122,12 +118,19 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      /* for orders */
       changeOrderStatus: function(orderIndex, status) {
         this.orders[orderIndex].status = status;
         console.log(this.orders);
         this.emitChange();
       },
 
+      receiveOrder: function(order) {
+        this.orders.push(order);
+        this.emitChange();
+      },
+
+      /* GETTERS */
       exports: {
         getUser: function() {
           return this.user;
