@@ -16,7 +16,6 @@ angular.module('app.common.flux', [
      'deleteDrink',
      'changeOrderStatus',
      'cancelEdit',
-     'editDrink',
      'confirmEdit'
     ]);
   })
@@ -34,7 +33,6 @@ angular.module('app.common.flux', [
         $actions.deleteDrink,
         $actions.changeOrderStatus,
         $actions.cancelEdit,
-        $actions.editDrink,
         $actions.confirmEdit
       ],
 
@@ -123,17 +121,10 @@ angular.module('app.common.flux', [
         this.drinks.splice(index, 1);
         this.emitChange();
       },
-
-      //make a copy before editing, save for CANCEL operation
-      editDrink:function(index){
-        for(var prop in this.drinks[index]){
-          this.original[prop] = this.drinks[index][prop]; 
-        }
-        this.original.index = index;
-      },
-
+      
+      /* for drink */
       confirmEdit: function(drink){
-        var index = this.original.index;
+        var index = drink.index;
         this.drinks[index].name = drink.name;
         this.drinks[index].category = drink.category;
         this.drinks[index].price = drink.price;
@@ -141,13 +132,10 @@ angular.module('app.common.flux', [
       },
 
       cancelEdit: function(){
-        console.log('original', this.original);
-        var index = this.original.index;
-        this.drinks[index].name = this.original.name;
-        this.drinks[index].category = this.original.category;
-        this.drinks[index].price = this.original.price;
+        //the change won't be saved, but need to update the view
         this.emitChange();
       },
+
       /* for orders */
       changeOrderStatus: function(orderIndex, status) {
         this.orders[orderIndex].status = status;

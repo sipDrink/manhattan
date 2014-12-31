@@ -41,38 +41,10 @@ angular.module('app.main.drinkMenu', [
 	    $scope.modal = modal;
 	  });
 	  
-
 	  $scope.editDrink = function(index) {
 	    $scope.target= $scope.drinks[index];
-	    $actions.editDrink(index);
+	    $scope.target.index = index;
 	    $scope.modal.show();
 	  };
-
-	  $scope.confirmEdit = function(){
-	  	$actions.confirmEdit($scope.target);
-	  	$scope.closeModal();
-	  };
-
-	  $scope.cancelEdit = function(){
-	  	$actions.cancelEdit();
-	  	$scope.closeModal();
-	  };
-
-	  $scope.closeModal = function() {
-	  	console.log($scope.drinks);
-	    $scope.modal.hide();
-	  };
-	  //Cleanup the modal when we're done with it!
-	  $scope.$on('$destroy', function() {
-	    $scope.modal.remove();
-	  });
-	  // Execute action on hide modal
-	  $scope.$on('modal.hidden', function() {
-	    // Execute action
-	  });
-	  // Execute action on remove modal
-	  $scope.$on('modal.removed', function() {
-	    // Execute action
-	  });
 
   });
