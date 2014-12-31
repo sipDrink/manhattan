@@ -13,7 +13,6 @@ angular.module('app.main.drinkMenu', [
 	      }
 	    });
 	})
-
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
 		  
 	  $store.bindTo($scope, function(){

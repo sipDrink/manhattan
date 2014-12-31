@@ -34,7 +34,4 @@ angular.module('app.main.orders', [])
         // setTimeout before calling $dispatcher.pub changes
       $actions.changeOrderStatus(orderIndex, status[index]);
     };
-
-
-
   });
