@@ -125,8 +125,9 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      changeOrderStatus: function(index, status) {
-        this.drinks[index].status = status;
+      changeOrderStatus: function(orderIndex, status) {
+        this.orders[orderIndex].status = status;
+        console.log(this.orders);
         this.emitChange();
       },
 
