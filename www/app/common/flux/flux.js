@@ -15,6 +15,9 @@ angular.module('app.common.flux', [
      'addDrink',
      'deleteDrink',
      'changeOrderStatus'
+     'cancelEdit',
+     'editDrink',
+     'confirmEdit'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
@@ -30,13 +33,16 @@ angular.module('app.common.flux', [
         $actions.addDrink,
         $actions.deleteDrink,
         $actions.changeOrderStatus
+        $actions.cancelEdit,
+        $actions.editDrink,
+        $actions.confirmEdit
       ],
 
       // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
+      original:{},
       listOpts: {
         showDelete: false,
-        showReorder: false,
         shouldSwipe: true
       },
       //drinks are used for testing
@@ -118,6 +124,30 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      //make a copy before editing, save for CANCEL operation
+      editDrink:function(index){
+        for(var prop in this.drinks[index]){
+          this.original[prop] = this.drinks[index][prop]; 
+        }
+        this.original.index = index;
+      },
+
+      confirmEdit: function(drink){
+        var index = this.original.index;
+        this.drinks[index].name = drink.name;
+        this.drinks[index].category = drink.category;
+        this.drinks[index].price = drink.price;
+        this.emitChange();
+      },
+
+      cancelEdit: function(){
+        console.log('original', this.original);
+        var index = this.original.index;
+        this.drinks[index].name = this.original.name;
+        this.drinks[index].category = this.original.category;
+        this.drinks[index].price = this.original.price;
+        this.emitChange();
+      },
       /* for orders */
       changeOrderStatus: function(orderIndex, status) {
         this.orders[orderIndex].status = status;

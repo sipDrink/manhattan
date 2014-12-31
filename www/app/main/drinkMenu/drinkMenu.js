@@ -15,13 +15,13 @@ angular.module('app.main.drinkMenu', [
 	})
 
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
+		  
+	  $store.bindTo($scope, function(){
+	  	$scope.opts = $store.getListOpts();
+		$scope.drinks = $store.getDrinks();
+		$scope.categories = $store.getCategories();
+	  });
 
-      $store.bindTo($scope, function() {
-        $scope.opts = $store.getListOpts();
-        $scope.drinks = $store.getDrinks();
-      });
-
-		  //calling actions from the view
 	  $scope.toggleDelete = function(){
   		$actions.toggleDelete();
 	  };
@@ -41,13 +41,26 @@ angular.module('app.main.drinkMenu', [
 		}).then(function(modal) {
 	    $scope.modal = modal;
 	  });
+	  
 
 	  $scope.editDrink = function(index) {
-	    $scope.modal.show();
 	    $scope.target= $scope.drinks[index];
+	    $actions.editDrink(index);
+	    $scope.modal.show();
+	  };
+
+	  $scope.confirmEdit = function(){
+	  	$actions.confirmEdit($scope.target);
+	  	$scope.closeModal();
+	  };
+
+	  $scope.cancelEdit = function(){
+	  	$actions.cancelEdit();
+	  	$scope.closeModal();
 	  };
 
 	  $scope.closeModal = function() {
+	  	console.log($scope.drinks);
 	    $scope.modal.hide();
 	  };
 	  //Cleanup the modal when we're done with it!

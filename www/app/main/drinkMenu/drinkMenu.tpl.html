@@ -12,7 +12,8 @@
 
       <div class='col'><h2>{{drink.name}}</h2></div>
       <div class='col'>${{drink.price}}</div>
-      
+      <div class='col'>{{drink.category}}</div>
+
       <ion-option-button class="button-info"
             ng-click="editDrink($index)">
           Edit
@@ -27,7 +28,4 @@
 <ion-footer-bar align-title="center" class='bar-assertive'> 
     <button class="button button-icon icon ion-ios7-minus-outline" 
           ng-click="toggleDelete()"></button>
-   <!--  <div class='title'>
-      <a href='#/main/drinkMenu/create'>Add a Drink</a>
-    </div> -->
 </ion-footer-bar>

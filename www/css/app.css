@@ -59,19 +59,32 @@ ion-item#bar-pic {
   height: 80px;
   background-color: #ff0;
 }
-.question {
-  margin: 15px;
+.drink-view {
+  padding: 0 50px 15px;
 }
-.question h2 {
-  text-align: center;
+.drink-view form {
+  font-size: 2em;
+  margin: 30px 0 40px 0;
 }
-.category {
-  font-size: 1.6em;
-  vertical-align: center;
-  padding: 15px;
+.drink-view select {
+  font-size: 1.4em;
+  color: rgba(0,0,0,0.73);
 }
-.arrow-icon {
-  float: right;
+.drink-view input {
+  font-size: 0.7em;
+}
+.drink-view .input-label {
+  color: rgba(0,0,0,0.372);
+  font-size: 1.4em;
+  padding-left: 0;
+}
+.drink-view-btn {
+  width: 68px;
+  margin: 5px;
+  font-size: 0.8em;
+}
+.drink-view md-input-group {
+  padding-left: 16px;
 }
 a {
   text-decoration: none;
