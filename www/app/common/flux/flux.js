@@ -9,15 +9,15 @@ angular.module('app.common.flux', [
   .factory('$actions', function(flux) {
     console.log('actions flux factory loaded');
     return flux.actions([
-     'receiveUser',
-     'reset',
-     'toggleDelete',
-     'toggleReorder',
-     'addDrink',
-     'deleteDrink',
-     'moveItem',
-     'changeOrderStatus'
-
+      'receiveUser',
+      'reset',
+      'toggleDelete',
+      'toggleReorder',
+      'addDrink',
+      'deleteDrink',
+      'moveItem',
+      'changeOrderStatus',
+      'receiveOrder'
      // 'updateCart'
     ]);
   })
@@ -35,7 +35,8 @@ angular.module('app.common.flux', [
         $actions.addDrink,
         $actions.deleteDrink,
         $actions.moveItem,
-        $actions.changeOrderStatus
+        $actions.changeOrderStatus,
+        $actions.receiveOrder
       ],
 
       // these are the actual stores of the data in $store
@@ -96,6 +97,7 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      /* CHANGE emitChange() to be more specific */
       /* for auth */
       receiveUser: function(profile) {
         // receives profile data from auth0 and sets it to $store.user
@@ -145,6 +147,8 @@ angular.module('app.common.flux', [
 
       receiveOrder: function(order) {
         this.orders.push(order);
+        $log.log(this.orders);
+        this.emit('order:added');
         this.emitChange();
       },
 
@@ -176,6 +180,7 @@ angular.module('app.common.flux', [
     var userGlobal = 'broadcast_user';
     // guarantees that the only messages the app acts on are directed at 'vendor'
     var _pnCb = function(message) {
+      // $log.log('received message:', message);
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
           $actions[action](args);
@@ -199,7 +204,7 @@ angular.module('app.common.flux', [
         // subscribe to global users channel
         // will be used for future features
         pbFlux.sub(userGlobal);
-        $log.log('kickstart');
+        $log.log('kickstart', user);
       },
 
       sub: function(channel) {

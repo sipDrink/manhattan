@@ -19,12 +19,18 @@ angular.module('app.main.orders', [])
       'redeemed': 2
     };
 
-    $store.bindTo($scope, function(){
-      //$scope.opts = $store.getListOpts();
+    var updateOrders = function() {
       $scope.orders = $store.getOrders();
       $scope.orders.forEach(function(order) {
         order.status = statusInts[order.status];
-      })
+      });
+    };
+
+    updateOrders();
+
+    $scope.$on('order:added', function() {
+      //$scope.opts = $store.getListOpts();
+      updateOrders();
     });
 
     $scope.changeStatus = function(orderIndex, index) {

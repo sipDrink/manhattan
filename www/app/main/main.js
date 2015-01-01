@@ -22,6 +22,7 @@ angular.module('app.main', [
   })
   .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher, $ionicPopover, $ionicHistory, $log, $rootScope, $store, Auth) {
 
+    $dispatcher.kickstart($store.getUser());
     this.signout = function() {
       Auth.signout();
     };
