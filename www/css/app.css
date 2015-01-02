@@ -1,6 +1,9 @@
 ion-item#bar-pic {
   padding: 0;
 }
+.menu-list {
+  overflow: auto;
+}
 .question {
   margin: 15px;
 }

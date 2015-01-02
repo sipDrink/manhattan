@@ -9,31 +9,78 @@
       </button>
   </div>
 </ion-header-bar>
- 
-<ion-content class="drinkMenu-view" ng-controller="DrinkMenuCtrl">
-  <ion-list show-delete="opts.showDelete"
-            show-reorder="opts.showReorder"
-            can-swipe="opts.shouldSwipe">
-    <ion-item ng-repeat="drink in drinks" 
-            class="row item-remove-animate">
 
-      <div class='col'><h2>{{drink.name}}</h2></div>
-      <div class='col'>${{drink.price}}</div>
+<ion-content>
+<!-- column allows for split screen -->
+<div layout="column">
+     
+  <div flex>
+    <md-content class="drinkMenu-view" md-theme="docs-dark" ng-controller="DrinkMenuCtrl">
       
-      <ion-option-button class="button-info"
-            ng-click="editDrink($index)">
-          Edit
-      </ion-option-button>
-      <ion-delete-button class="ion-minus-circled"
-                         ng-click="deleteDrink($index)">
-      </ion-delete-button>
-      <ion-reorder-button class="ion-navicon"
-                          on-reorder="moveItem(drink, $fromIndex, $toIndex)">
-      </ion-reorder-button>
+      <form style="padding: 50px;">
 
-    </ion-item>
-  </ion-list>  
+        <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
+          <div layout="row" layout-align="center center">
+            
+            
+            <div flex>
+              <!-- <md-text-float type="text" label="Category"> -->
+              <select name="categories">
+                <option ng-repeat="drink in drinks">{{ drink.category }}</option>
+              </select>
+            </div>
+            
+            <div flex>          
+              <md-text-float type="text" label="Enter drink name" ng-model="drink">
+            </div>
+          
+            <div flex>
+              <md-text-float type="text" label="Price">
+            </div>
+            
+            <div flex>
+              <md-button class="md-raised">Add Item</md-button>
+            </div>
+            
+          </div>
+        </md-whiteframe>
+  
+        <div layout="row">
+          <div flex>
+           <!-- empty div for alignment -->
+          </div>
+          <div flex>
+            <md-text-float type="text" label="Search">
+          </div>
+        </div>
+
+        <md-divider ng-if="!$last"></md-divider>
+
+      </form>
+    </md-content>
+  </div>
+
+
+<!-- Menu List -->
+
+    <div flex class="menu-list">
+      <md-content class="drinkMenu-view" ng-controller="DrinkMenuCtrl">
+        <md-list>
+          <md-item ng-repeat="drink in drinks">
+            <mg-item-content>
+              <div class='col'><h2>{{drink.name}}</h2></div>
+              <div class='col'>${{drink.price}}</div>
+              <div>{{ drink.category }}</div>
+            </mg-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-item>
+        </md-list>  
+      </md-content>
+    </div>
+  </div>
 </ion-content>
+
+
 <ion-footer-bar align-title="center" class='bar-assertive'> 
     <div class='title'>
       <a href='#/main/drinkMenu/create'>Add a Drink</a>
