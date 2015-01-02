@@ -12,35 +12,39 @@ angular.module('app.common.flux', [
      'receiveUser',
      'reset',
      'toggleDelete',
-     'toggleReorder',
      'addDrink',
      'deleteDrink',
-     'moveItem'
-
-     // 'updateCart'
+     'changeOrderStatus',
+     'cancelEdit',
+     'confirmEdit'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter) {
 
+    // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
+      // these actions will map to handlers with the same name that will be run
+        // when an action is triggered
       actions: [
         $actions.receiveUser,
         $actions.reset,
         $actions.toggleDelete,
-        $actions.toggleReorder,
         $actions.addDrink,
         $actions.deleteDrink,
-        $actions.moveItem
+        $actions.changeOrderStatus,
+        $actions.cancelEdit,
+        $actions.confirmEdit
       ],
 
+      // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      listOpts:{
+      original:{},
+      listOpts: {
         showDelete: false,
-        showReorder: false,
         shouldSwipe: true
       },
       //drinks are used for testing
-      drinks:[
+      drinks: [
         { name: 'Grey Goose',category: 'Shot', price: 80 },
         { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
         { name: 'Captain Morgan', category: 'Rum', price:43 },
@@ -52,17 +56,50 @@ angular.module('app.common.flux', [
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
      
-     // orders: {},
+     //orders: {} are used for testing
+     orders: [
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
+                  { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Jessica'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 8},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 5}],
+         customer: {name: 'Daniel'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 1},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 4},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 2}],
+         customer: {name: 'Louie'},
+         status: 'paidFor'},
+       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+         customer: {name: 'Wuwu'},
+         status: 'paidFor'}
+     ],
 
-      receiveUser: function(nUser) {
-        _.extend(this.user, nUser);
-        localStorageService.set('profile', this.user);
+      reset: function() {
+        $log.log('resetting $store');
+        this.user = {};
+        this.drinks = [];
+        this.orders = [];
+        this.categories = [];
+        this.listOpts = {};
         this.emitChange();
       },
 
-      reset: function() {
-        this.user = {};
-        // this.orders = {};
+      /* for auth */
+      receiveUser: function(profile) {
+        // receives profile data from auth0 and sets it to $store.user
+        _.extend(this.user, profile);
+        localStorageService.set('profile', this.user);
+        $log.log('receiving user data to store to ls.profile', this.user);
         this.emitChange();
       },
 
@@ -70,12 +107,6 @@ angular.module('app.common.flux', [
       toggleDelete: function(){
         this.listOpts.showDelete = !this.listOpts.showDelete;
         this.listOpts.showReorder = false;
-        this.emitChange();
-      },
-
-      toggleReorder: function(){
-        this.listOpts.showDelete = false;
-        this.listOpts.showReorder = !this.listOpts.showReorder; 
         this.emitChange();
       },
 
@@ -90,15 +121,35 @@ angular.module('app.common.flux', [
         this.drinks.splice(index, 1);
         this.emitChange();
       },
-
-      moveItem: function(item, fromIndex, toIndex) {
-        this.drinks.splice(fromIndex, 1);
-        this.drinks.splice(toIndex, 0, item);
+      
+      /* for drink */
+      confirmEdit: function(drink){
+        var index = drink.index;
+        this.drinks[index].name = drink.name;
+        this.drinks[index].category = drink.category;
+        this.drinks[index].price = drink.price;
         this.emitChange();
       },
-      
-      exports: {
 
+      cancelEdit: function(){
+        //the change won't be saved, but need to update the view
+        this.emitChange();
+      },
+
+      /* for orders */
+      changeOrderStatus: function(orderIndex, status) {
+        this.orders[orderIndex].status = status;
+        console.log(this.orders);
+        this.emitChange();
+      },
+
+      receiveOrder: function(order) {
+        this.orders.push(order);
+        this.emitChange();
+      },
+
+      /* GETTERS */
+      exports: {
         getUser: function() {
           return this.user;
         },
@@ -108,15 +159,21 @@ angular.module('app.common.flux', [
         getDrinks: function(){
           return this.drinks;
         },
+        getOrders: function(){
+          return this.orders;
+        },
         getCategories: function(){
           return this.categories;
         }
+
       }
     });
   })
-  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions, $rootScope){
+  .factory('$dispatcher', function(PubNub, $rootScope, $log, CONFIG, $actions){
+    // _alias should always be 'vendor' for this app
     var _alias = CONFIG.alias;
     var userGlobal = 'broadcast_user';
+    // guarantees that the only messages the app acts on are directed at 'vendor'
     var _pnCb = function(message) {
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
@@ -150,7 +207,7 @@ angular.module('app.common.flux', [
           channel: channel,
           callback: _pnCb,
           error: function(e) {
-            $log.error(e);
+            $log.error('error subscribing to channel:', channel, 'with error:', e);
           }
         });
       },

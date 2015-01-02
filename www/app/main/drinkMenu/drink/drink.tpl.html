@@ -1,8 +1,38 @@
-<ion-modal-view>
-    <ion-header-bar>
-      <h1 class="title">Edit Drink</h1>
-    </ion-header-bar>
-    <ion-content> 
-      {{target.name}} | {{target.price}}
-    </ion-content>
+<ion-modal-view style="height: 53%;">
+  <ion-header-bar class="bar-assertive">
+    <h1 class="title">Edit Drink</h1>
+  </ion-header-bar>
+  
+  <ion-content class='drink-view'> 
+	<md-content ng-controller="DrinkCtrl">
+	  <form layout='column' layout-align="center">
+
+	    <label class="item item-input item-select">
+		    <div class="input-label">
+		      Category
+		    </div>
+	    <select ng-model="target.category">
+	      <option
+		    ng-repeat = "category in categories"
+	        ng-selected="{{category === target.category}}"
+	        value = "{{target.category = category}}">
+	        {{category}}
+	      </option>
+	    </select>
+	    </label>
+       
+        <md-text-float label="Drink Name" ng-model="target.name"> </md-text-float>
+        <md-text-float label="Price" ng-model="target.price" type='tel'></md-text-float>
+      </form>
+	    
+      <md-whiteframe class="md-whiteframe-z5" layout layout-align="end">
+		  <!-- <div layout="row">  -->
+		    <md-button class="drink-view-btn md-primary" ng-click="confirmEdit()">OK</md-button> 
+	        <md-button class="drink-view-btn md-primary" ng-click="cancelEdit()">Cancel</md-button>
+	      <!-- </div> -->
+	  </md-whiteframe>
+	  
+  	
+	</md-content>
+  </ion-content>
 </ion-modal-view>
