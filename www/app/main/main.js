@@ -25,6 +25,21 @@ angular.module('app.main', [
     this.signout = function() {
       Auth.signout();
     };
+    $scope.activateItem = function(id){
+      $scope.active_order = '';
+      $scope.active_menu = '';
+      $scope.active_settings = '';
+      switch(id){
+        case 1:  $scope.active_order = 'act';
+            break;
+        case 2:  $scope.active_menu = 'act';
+            break;
+        case 3:  $scope.active_settings = 'act';
+            break;
+      }
+      
+    };
+
 
     // this.nav = function(what){
     //   $log.log('$mdSidenav ', what);
