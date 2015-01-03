@@ -1,27 +1,64 @@
 .orderContainer
-  display flex
-  flex-flow row wrap
-  justify-content space-around
-  margin: 15px
+  margin-top 30px
+  margin-left 20px
 
 .orderCard
-  display flex
-  flex-direction column
-  -webkit-align-items center
-  align-items center
-  width 340px
-  margin-bottom: 15px
-  background-color #f7f7f7;
-  border 2px solid gray
-  border-radius 10px
+  width 330px
+  margin-bottom 15px
+  border-radius 19px !important
   text-align center
+  padding 0px !important
+  height 100% !important
 
 .orderCard .customerInfo
+  align-self start
   padding 10px
-  border-bottom 1px solid gray
-  width 90%
+  width 100%
   margin auto
+  margin-top 0 !important
+  margin-bottom 0 !important
   font-size 1.5em
+  height 70px
+  background-color rgb(228,32,18)
+  border-top-left-radius 20px
+  border-top-right-radius 20px
+
+.orderCard .customerFace
+  position relative
+  z-index 1
+  top -0px
+  left -0px
+  width 100px
+  height 100px
+  border 5px solid white
+  border-radius 100px
+
+.orderCard .customerFace img
+  max-width 100%
+  max-height 100%
+  border-radius 50%
+
+.orderCard .customerInfo span
+  position relative
+  top -85px
+  left 40px
+  text-align right
+  color white
+  font-weight bolder
+  font-size 1.1em
+
+.orderCard .statusSlide
+  border-bottom-left-radius 20px
+  border-bottom-right-radius 20px
+
+.orderCard .inProgress
+  background-color #FFF2F2
+
+.orderCard .pickUp
+  background-color #FFFFE0
+
+.orderCard .redeemed
+  background #E6E6E6
 
 .orderCard .orderInfo
   width 100%
@@ -29,7 +66,7 @@
 .orderCard table
   width 80%
   margin auto
-  margin-top 10px
+  margin-top 50px
   margin-bottom 10px
   font-size 1.5em
   verticle-align middle
@@ -45,14 +82,22 @@
 
 .orderCard .slideBoxContainer
   width 100%
-  border-top 2px solid gray
   margin auto
-  padding-top 30px
-  padding-bottom 20px
-  background-color tomato
 
-.orderCard .statusButton
-  width 80px
-  height 80px
-  background-color yellow
+.orderCard .slideBoxContainer .box
+  border-top 2px solid gray
+  padding-top 25px
+  padding-bottom 20px
+  border-bottom-left-radius 20px
+  border-bottom-right-radius 20px
+
+.orderCard .slideBoxContainer .yellow
+  background-color #FFCCCC
+
+.orderCard .slideBoxContainer .orange
+  background-color #FFFFCC
+
+.orderCard .slideBoxContainer .green
+  background-color #BCBCBC
+
 
