@@ -28,10 +28,10 @@ angular.module('app.main.orders', [])
     });
 
     $scope.changeStatus = function(orderIndex, index) {
-      console.log(orderIndex, index);
       // needs to:
         // setTimeout before changing orderStatus in store
         // setTimeout before calling $dispatcher.pub changes
       $actions.changeOrderStatus(orderIndex, status[index]);
+
     };
   });
