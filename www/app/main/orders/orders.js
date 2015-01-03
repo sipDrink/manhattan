@@ -11,7 +11,7 @@ angular.module('app.main.orders', [])
         }
     });
   })
-  .controller('OrdersCtrl', function($scope, $actions, $store, $timeout){
+  .controller('OrdersCtrl', function($scope, $actions, $store){
     var status = ['paidFor', 'processed', 'redeemed'];
     var statusInts = {
       'paidFor': 0,
@@ -34,7 +34,4 @@ angular.module('app.main.orders', [])
       $actions.changeOrderStatus(orderIndex, status[index]);
 
     };
-
-
-
   });
