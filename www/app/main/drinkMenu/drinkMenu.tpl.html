@@ -63,12 +63,12 @@
 
 <!-- Menu List -->
     <div class="row">
-      <ion-scroll>
+      <ion-scroll style="width: 100%">
+
         <ion-list show-delete="opts.showDelete"
                   can-swipe="opts.shouldSwipe">
           <ion-item ng-repeat="drink in drinks" 
                   class="row item-remove-animate">
-
             <div class='col'><h2>{{drink.name}}</h2></div>
             <div class='col'>${{drink.price}}</div>
             <div class='col'>{{drink.category}}</div>
