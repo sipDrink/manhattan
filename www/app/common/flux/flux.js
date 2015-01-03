@@ -161,6 +161,7 @@ angular.module('app.common.flux', [
 
         this.orders[orderIndex].status = status;
 
+        this.emit('orders:changed');
         this.emitChange();
 
         //save promise to temp storage in case if we want to cancel it later
@@ -177,7 +178,7 @@ angular.module('app.common.flux', [
       receiveOrder: function(order) {
         this.orders.push(order);
         $log.log(this.orders);
-        this.emit('order:added');
+        this.emit('orders:changed');
         this.emitChange();
       },
 

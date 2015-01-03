@@ -28,7 +28,7 @@ angular.module('app.main.orders', [])
 
     updateOrders();
 
-    $scope.$on('order:added', function() {
+    $scope.$on('orders:changed', function() {
       //$scope.opts = $store.getListOpts();
       updateOrders();
     });
