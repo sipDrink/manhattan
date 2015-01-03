@@ -162,14 +162,13 @@ angular.module('app.common.flux', [
         this.orders[orderIndex].status = status;
 
         this.emit('orders:changed');
-        this.emitChange();
 
         //save promise to temp storage in case if we want to cancel it later
         if(status === 'redeemed'){
           var timeout = $timeout(function() {
             self.orders.splice(orderIndex,1);
             delete self.promises[orderId]; //delete the promise if order is removed
-            self.emitChange();
+            self.emit('orders:changed');
           }, 3000);
           this.promises[orderId] = timeout;
         }
