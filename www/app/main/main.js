@@ -25,16 +25,16 @@ angular.module('app.main', [
     this.signout = function() {
       Auth.signout();
     };
-    $scope.activateItem = function(id){
-      $scope.active_order = '';
-      $scope.active_menu = '';
-      $scope.active_settings = '';
+    this.activateItem = function(id){
+      this.active_order = '';
+      this.active_menu = '';
+      this.active_settings = '';
       switch(id){
-        case 1:  $scope.active_order = 'act';
+        case 1:  this.active_order = 'act';
             break;
-        case 2:  $scope.active_menu = 'act';
+        case 2:  this.active_menu = 'act';
             break;
-        case 3:  $scope.active_settings = 'act';
+        case 3:  this.active_settings = 'act';
             break;
       }
       
