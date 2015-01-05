@@ -8,7 +8,7 @@ angular.module('app.main.drinkMenu', [
 	      views:{
 	     	'menuContent':{
 		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-		       controller: 'DrinkMenuCtrl as drinkMenu'
+		       controller: 'DrinkMenuCtrl as menu'
 	      	}
 	      }
 	    });
@@ -21,17 +21,16 @@ angular.module('app.main.drinkMenu', [
 		$scope.categories = $store.getCategories();
 	  });
 
-	  $scope.toggleDelete = function(){
+	  this.toggleDelete = function(){
   		$actions.toggleDelete();
 	  };
 	  
-	  $scope.addDrink = function(){
+	  this.addDrink = function(){
 		$actions.addDrink();
 	  };
 
-	  $scope.deleteDrink = function(index) {
-	    $actions.deleteDrink(index);
-	    console.log($scope.drinks);
+	  this.deleteDrink = function(drink, index) {
+	    $actions.deleteDrink(drink, index);
 	  };
 
 	  $ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {
@@ -41,9 +40,9 @@ angular.module('app.main.drinkMenu', [
 	    $scope.modal = modal;
 	  });
 	  
-	  $scope.editDrink = function(index) {
-	    $scope.target= $scope.drinks[index];
-	    $scope.target.index = index;
+	  this.editDrink = function(drink, index) {
+	    $actions.editDrink(drink, index);
+	    $scope.target = drink;
 	    $scope.modal.show();
 	  };
 
