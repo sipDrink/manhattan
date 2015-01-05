@@ -4,29 +4,31 @@
   </div>
 </ion-header-bar>
 
-
 <ion-pane>     
   <div class="col">
-    <div class="row">
-          <!-- <ion-scroll> -->
-<!-- <ion-header-bar class="bar bar-subheader"> -->
-<!-- column allows for split screen -->
-<!-- <div layout="column"> -->
-      <div class="col">
-      <!-- <div flex> -->
-        <md-content class="drinkMenu-view" md-theme="docs-dark" ng-controller="DrinkMenuCtrl">
-          
-          <form style="padding: 50px;">
-
+    <ion-content scroll="false">
+      <div class="row">
+        <div class="col">
+          <md-content class="drinkMenu-view" md-theme="docs-dark" ng-controller="DrinkMenuCtrl">
+            
             <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
               <div layout="row" layout-align="center center">
                 
-                
                 <div flex>
                   <!-- <md-text-float type="text" label="Category"> -->
-                  <select name="categories">
+                  <!-- <select name="categories">
+                    <option ng-repeat="drink in drinks">{{ drink.category }}</option>
+                  </select> -->
+
+                  <label class="item item-input item-select">
+                    <div class="input-label">
+                      Category
+                    </div>
+                  <select>
                     <option ng-repeat="drink in drinks">{{ drink.category }}</option>
                   </select>
+                  </label>
+                    
                 </div>
                 
                 <div flex>          
@@ -52,18 +54,14 @@
                 <md-text-float type="text" label="Search">
               </div>
             </div>
-
-            <md-divider ng-if="!$last"></md-divider>
-
-          </form>
-        </md-content>
-      </div>
-
+          </md-content>
+        </div>
+      </ion-content>
     </div>
 
 <!-- Menu List -->
     <div class="row">
-      <ion-scroll style="width: 100%">
+      <ion-scroll class="scroll" style="width: 100%; height: 500px">
 
         <ion-list show-delete="opts.showDelete"
                   can-swipe="opts.shouldSwipe">
@@ -83,30 +81,11 @@
 
           </ion-item>
         </ion-list>
-  
-<!-- </ion-content> -->
+
       </ion-scroll>
     </div>
   </div>
 </ion-pane>
-
-    <!-- <div flex class="menu-list">
-      <md-content class="drinkMenu-view" ng-controller="DrinkMenuCtrl">
-        <md-list>
-          <md-item ng-repeat="drink in drinks">
-            <mg-item-content>
-              <div class='col'><h2>{{drink.name}}</h2></div>
-              <div class='col'>${{drink.price}}</div>
-              <div>{{ drink.category }}</div>
-            </mg-item-content>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-item>
-        </md-list>  
-      </md-content>
-    </div>
-  </div>
-</ion-content> -->
-
 
 <ion-footer-bar align-title="center" class='bar-assertive'> 
     <button class="button button-icon icon ion-ios7-minus-outline" 
