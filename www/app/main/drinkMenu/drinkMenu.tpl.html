@@ -1,44 +1,62 @@
-<ion-header-bar class="menu-bg">
+<!-- <ion-header-bar class="menu-bg">
   <h1 class="title">Menu</h1>
-</ion-header-bar>
+</ion-header-bar> -->
 
 
 <ion-pane class="drinkMenu-view" ng-controller="DrinkMenuCtrl">     
   <!-- <div class="col"> -->
-    <div class="row">
-      <div class="col">
-        <md-content>
-          <form style="padding: 50px 50px 0 50px;">
+    <ion-content scroll="false">
+      <div class="row">
+        <div class="col">
+          <md-content class="drinkMenu-view" md-theme="docs-dark" ng-controller="DrinkMenuCtrl">
+            
             <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
               <div layout="row" layout-align="center center">
+                
                 <div flex>
-                  <select name="categories">
+                  <!-- <md-text-float type="text" label="Category"> -->
+                  <!-- <select name="categories">
+                    <option ng-repeat="drink in drinks">{{ drink.category }}</option>
+                  </select> -->
+
+                  <label class="item item-input item-select">
+                    <div class="input-label">
+                      Category
+                    </div>
+                  <select>
                     <option ng-repeat="drink in drinks">{{ drink.category }}</option>
                   </select>
+                  </label>
+                    
                 </div>
+                
                 <div flex>          
                   <md-text-float type="text" label="Enter drink name" ng-model="drink">
                 </div>
+              
                 <div flex>
                   <md-text-float type="text" label="Price">
                 </div>
+                
                 <div flex>
                   <md-button class="md-raised">Add Item</md-button>
                 </div>
+                
               </div>
-            </md-whiteframe></form>
+            </md-whiteframe>
+      
             <div layout="row">
               <div flex>
+               <!-- empty div for alignment -->
               </div>
               <div flex>
                 <md-text-float type="text" label="Search">
               </div>
             </div>
-          <!-- </form> -->
-        </md-content>
-      </div>
+          </md-content>
+        </div>
+      </ion-content>
     </div>
-
 <!-- Menu List -->
     <div class="row">
       <ion-scroll style="width: 100%; height: 500px">
