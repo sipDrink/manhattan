@@ -14,6 +14,7 @@ angular.module('app.common.flux', [
       'toggleDelete',
       'addDrink',
       'deleteDrink',
+      'editDrink',
       'changeOrderStatus',
       'receiveOrder',
       'cancelEdit',
@@ -32,6 +33,7 @@ angular.module('app.common.flux', [
         $actions.toggleDelete,
         $actions.addDrink,
         $actions.deleteDrink,
+        $actions.editDrink,
         $actions.changeOrderStatus,
         $actions.receiveOrder,
         $actions.cancelEdit,
@@ -40,19 +42,27 @@ angular.module('app.common.flux', [
 
       // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      original:{},
+      original_drink:{}, //this holds drink's settings before editing
       listOpts: {
         showDelete: false,
         shouldSwipe: true
       },
       //drinks are used for testing
-      drinks: [
-        { name: 'Grey Goose',category: 'Shot', price: 80 },
-        { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
-        { name: 'Captain Morgan', category: 'Rum', price:43 },
-        { name: 'Fireball', category: 'Whisky', price: 32},
-        { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
-      ],
+      // drinks: [
+      //   { name: 'Grey Goose',category: 'Shot', price: 80 },
+      //   { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+      //   { name: 'Captain Morgan', category: 'Rum', price:43 },
+      //   { name: 'Fireball', category: 'Whisky', price: 32},
+      //   { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
+      // ],
+      drinks: {
+        shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 }],
+        wine: [{ name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+               { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
+        rum:  [{ name: 'Captain Morgan', category: 'Rum', price:43 }],
+        whisky: [{ name: 'Fireball', category: 'Whisky', price: 32}]
+      },
+
       categories: [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
         'Cognac', 'Vodka', 'Tequila', 'Rum'
@@ -122,30 +132,61 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      addDrink: function(){
+      addDrink: function(drink){
         this.listOpts.showDelete = false;
-        this.listOpts.showReorder = false;
-        this.drinks.push({id: this.drinks.length});
+        this.drinks.push({name: drink.name, 
+          category: drink.category, 
+          price: drink.price});
         this.emitChange();
       },
 
-      deleteDrink: function(index){
-        this.drinks.splice(index, 1);
+      deleteDrink: function(drink, index){
+        var category = drink.category.toLowerCase();
+        this.drinks[category].splice(index, 1);
+        this.removeEmpty(category);
         this.emitChange();
       },
-      
+
+      editDrink: function(drink, index){
+        //save category and index 
+        this.original_drink.category = drink.category.toLowerCase();
+        this.original_drink.index = index;
+      },
+      //it checks numbers of drinks in the category, remove category from menu if no drink found  
+      removeEmpty: function(category){
+        if(this.drinks[category].length === 0)
+          delete this.drinks[category];
+      },
+
       /* for drink */
       confirmEdit: function(drink){
-        var index = drink.index;
-        this.drinks[index].name = drink.name;
-        this.drinks[index].category = drink.category;
-        this.drinks[index].price = drink.price;
+        //move drink to another category if category is changed
+        if(this.original_drink.category !== drink.category.toLowerCase()){
+          this.drinks[this.original_drink.category].splice(this.original_drink.index, 1);
+          this.removeEmpty(this.original_drink.category);
+          this.drinks[drink.category.toLowerCase()] = this.drinks[drink.category.toLowerCase()] || [];
+          this.drinks[drink.category.toLowerCase()].push(drink);
+        }else{
+          this.drinks[this.original_drink.category][this.original_drink.index].name = drink.name;
+          this.drinks[this.original_drink.category][this.original_drink.index].category = drink.category;
+          this.drinks[this.original_drink.category][this.original_drink.index].price = drink.price;
+        }
+
         this.emitChange();
       },
 
       cancelEdit: function(){
         //the change won't be saved, but need to update the view
         this.emitChange();
+      },
+
+      _findOrderById : function(_id) {
+        for(var i = 0; i < this.orders.length; i++){
+          if(this.orders[i]._id === _id){
+            return i;
+          }
+        }
+        return -1;
       },
 
       /* for orders */
@@ -165,7 +206,10 @@ angular.module('app.common.flux', [
 
         //save promise to temp storage in case if we want to cancel it later
         var timeout = $timeout(function() {
-          //possibly need to refactor to remove by orderId instead since order may change during timeout
+          var orderIndex = self._findOrderById(orderId);
+          if(orderIndex === -1){
+            return;
+          }
           if(status === 'redeemed') { //remove order if it is redeemed
             var order = self.orders.splice(orderIndex,1)[0];
             self.emit('orders:changed'); //let model know orders changed
@@ -269,7 +313,7 @@ angular.module('app.common.flux', [
           callback: function() {
             $log.log('pubbed');
           }
-        });
+        }); 
       }
     };
 
