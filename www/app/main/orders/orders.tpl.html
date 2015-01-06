@@ -12,7 +12,7 @@
       <div class="customerInfo">
 
         <div class="customerFace">
-          <img alt="" src="http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg">
+          <img alt="" src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg">
         </div>
         <span>{{order.customer.name}}'s Order</span>
       </div>
@@ -23,39 +23,48 @@
 
           <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)">
             <ion-slide class="statusSlide inProgress">
-                <table>
-                  <tr ng-repeat="drink in order.drinks">
-                    <td class="drinkName">{{drink.name}}</td>
-                    <td class="drinkQuantity">{{drink.quantity}}</td>
-                  </tr>
-                </table>
-              <div class="box yellow">
-                <h1>In Progress</h1>
-              </div>
+            <div class='red statusBox'>
+              <span>Processing</span>
+            </div>
+              <table>
+                <tr ng-repeat="drink in order.drinks">
+                  <td class="drinkName">{{drink.name}}</td>
+                  <td class="drinkQuantity">{{drink.quantity}}</td>
+                </tr>
+              </table>
             </ion-slide>
             <ion-slide class="statusSlide pickUp">
-                <table>
-                  <tr ng-repeat="drink in order.drinks">
-                    <td class="drinkName">{{drink.name}}</td>
-                    <td class="drinkQuantity">{{drink.quantity}}</td>
-                  </tr>
-                </table>
-              <div class="box orange">
-                <h1>Pick Up</h1>
-              </div>
+            <div class='orange statusBox'>
+              <span>Pick Up</span>
+            </div>
+              <table>
+                <tr ng-repeat="drink in order.drinks">
+                  <td class="drinkName">{{drink.name}}</td>
+                  <td class="drinkQuantity">{{drink.quantity}}</td>
+                </tr>
+              </table>
             </ion-slide>
             <ion-slide class="statusSlide redeemed">
-                <table>
-                  <tr ng-repeat="drink in order.drinks">
-                    <td class="drinkName">{{drink.name}}</td>
-                    <td class="drinkQuantity">{{drink.quantity}}</td>
-                  </tr>
-                </table>
-              <div class="box green">
-                <h1>Complete</h1>
-              </div>
+            <div class='green statusBox'>
+              <span>Complete</span>
+            </div>
+              <table>
+                <tr ng-repeat="drink in order.drinks">
+                  <td class="drinkName">{{drink.name}}</td>
+                  <td class="drinkQuantity">{{drink.quantity}}</td>
+                </tr>
+              </table>
             </ion-slide>
           </ion-slide-box>
+
+          <div class="additionalActions">
+            <md-button class="md-fab">
+              <span><i class="icon ion-arrow-expand"></i></span>
+            </md-button>
+            <md-button class="md-fab">
+              <span><i class="icon ion-close-circled"></i></span>
+            </md-button>
+          </div>
           
         </div>
       </div>
