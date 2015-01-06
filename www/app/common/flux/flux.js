@@ -20,7 +20,7 @@ angular.module('app.common.flux', [
      'confirmEdit'
     ]);
   })
-  .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter, $timeout) {
+  .factory('$store', function(flux, $actions, localStorageService, $log, ngGeodist, $filter, $timeout) {
 
     // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
@@ -141,7 +141,7 @@ angular.module('app.common.flux', [
         var category = drink.category.toLowerCase();
         this.drinks[category].splice(index, 1);
         this.removeEmpty(category);
-        this.emitChange();
+        // this.emitChange();
       },
 
       editDrink: function(drink, index){

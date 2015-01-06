@@ -38,9 +38,6 @@ describe('Module: starter', function() {
       expect(hasModule('app.auth')).to.be.true;
     });
 
-    it('should have app.main.menu as a dependency', function() {
-      expect(hasModule('app.main.menu')).to.be.true;
-    });
 
   });
 
