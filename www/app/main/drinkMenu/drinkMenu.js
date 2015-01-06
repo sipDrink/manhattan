@@ -8,7 +8,7 @@ angular.module('app.main.drinkMenu', [
 	      views:{
 	     	'menuContent':{
 		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-		       controller: 'DrinkMenuCtrl as menu'
+		       controller: 'DrinkMenuCtrl as drinkMenu'
 	      	}
 	      }
 	    });

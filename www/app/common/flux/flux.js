@@ -40,7 +40,7 @@ angular.module('app.common.flux', [
 
       // these are the actual stores of the data in $store
       user: localStorageService.get('profile') || {},
-      original:{}, //this holds drink's settings before editing
+      original_drink:{}, //this holds drink's settings before editing
       listOpts: {
         showDelete: false,
         shouldSwipe: true
@@ -146,8 +146,8 @@ angular.module('app.common.flux', [
 
       editDrink: function(drink, index){
         //save category and index 
-        this.original.category = drink.category.toLowerCase();
-        this.original.index = index;
+        this.original_drink.category = drink.category.toLowerCase();
+        this.original_drink.index = index;
       },
       //it checks numbers of drinks in the category, remove category from menu if no drink found  
       removeEmpty: function(category){
@@ -158,15 +158,15 @@ angular.module('app.common.flux', [
       /* for drink */
       confirmEdit: function(drink){
         //move drink to another category if category is changed
-        if(this.original.category !== drink.category.toLowerCase()){
-          this.drinks[this.original.category].splice(this.original.index, 1);
-          this.removeEmpty(this.original.category);
+        if(this.original_drink.category !== drink.category.toLowerCase()){
+          this.drinks[this.original_drink.category].splice(this.original_drink.index, 1);
+          this.removeEmpty(this.original_drink.category);
           this.drinks[drink.category.toLowerCase()] = this.drinks[drink.category.toLowerCase()] || [];
           this.drinks[drink.category.toLowerCase()].push(drink);
         }else{
-          this.drinks[this.original.category][this.original.index].name = drink.name;
-          this.drinks[this.original.category][this.original.index].category = drink.category;
-          this.drinks[this.original.category][this.original.index].price = drink.price;
+          this.drinks[this.original_drink.category][this.original_drink.index].name = drink.name;
+          this.drinks[this.original_drink.category][this.original_drink.index].category = drink.category;
+          this.drinks[this.original_drink.category][this.original_drink.index].price = drink.price;
         }
 
         this.emitChange();
