@@ -9,15 +9,16 @@ angular.module('app.common.flux', [
   .factory('$actions', function(flux) {
     console.log('actions flux factory loaded');
     return flux.actions([
-     'receiveUser',
-     'reset',
-     'toggleDelete',
-     'addDrink',
-     'deleteDrink',
-     'editDrink',
-     'changeOrderStatus',
-     'cancelEdit',
-     'confirmEdit'
+      'receiveUser',
+      'reset',
+      'toggleDelete',
+      'addDrink',
+      'deleteDrink',
+      'editDrink',
+      'changeOrderStatus',
+      'receiveOrder',
+      'cancelEdit',
+      'confirmEdit'
     ]);
   })
   .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter, $timeout) {
@@ -34,6 +35,7 @@ angular.module('app.common.flux', [
         $actions.deleteDrink,
         $actions.editDrink,
         $actions.changeOrderStatus,
+        $actions.receiveOrder,
         $actions.cancelEdit,
         $actions.confirmEdit
       ],
@@ -113,6 +115,7 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      /* CHANGE emitChange() to be more specific */
       /* for auth */
       receiveUser: function(profile) {
         // receives profile data from auth0 and sets it to $store.user
@@ -177,6 +180,15 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      _findOrderById : function(_id) {
+        for(var i = 0; i < this.orders.length; i++){
+          if(this.orders[i]._id === _id){
+            return i;
+          }
+        }
+        return -1;
+      },
+
       /* for orders */
       changeOrderStatus: function(orderIndex, status) {
 
@@ -190,21 +202,39 @@ angular.module('app.common.flux', [
 
         this.orders[orderIndex].status = status;
 
-        this.emitChange();
+        // this.emit('orders:changed');
 
         //save promise to temp storage in case if we want to cancel it later
-        if(status === 'redeemed'){
-          var timeout = $timeout(function() {
-            self.orders.splice(orderIndex,1);
-            delete self.promises[orderId]; //delete the promise if order is removed
-            self.emitChange();
-          }, 3000);
-          this.promises[orderId] = timeout;
-        }
+        var timeout = $timeout(function() {
+          var orderIndex = self._findOrderById(orderId);
+          if(orderIndex === -1){
+            return;
+          }
+          if(status === 'redeemed') { //remove order if it is redeemed
+            var order = self.orders.splice(orderIndex,1)[0];
+            self.emit('orders:changed'); //let model know orders changed
+          } else {
+            var order = self.orders[orderIndex];
+          }
+          delete self.promises[orderId]; //delete the promise if order is removed
+          $dispatcher.pub(
+            { actions: { 
+                updateOrder: {
+                  orderInfo: {
+                    _id: order._id,
+                    status: order.status
+                  }
+                }
+              }
+            }, 'orders');
+        }, 3000);
+        this.promises[orderId] = timeout;
       },
 
       receiveOrder: function(order) {
         this.orders.push(order);
+        $log.log(this.orders);
+        this.emit('orders:changed');
         this.emitChange();
       },
 
@@ -235,6 +265,7 @@ angular.module('app.common.flux', [
     var userGlobal = 'broadcast_user';
     // guarantees that the only messages the app acts on are directed at 'vendor'
     var _pnCb = function(message) {
+      // $log.log('received message:', message);
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
           $actions[action](args);
@@ -258,7 +289,7 @@ angular.module('app.common.flux', [
         // subscribe to global users channel
         // will be used for future features
         pbFlux.sub(userGlobal);
-        $log.log('kickstart');
+        $log.log('kickstart', user);
       },
 
       sub: function(channel) {

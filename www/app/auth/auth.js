@@ -11,7 +11,7 @@ angular.module('app.auth', [])
     this.signIn = function() {
       Auth.signin()
         .then(function(user) {
-          $dispatcher.kickstart(user);
+          // $dispatcher.kickstart(user);
           // $actions.updateMe(user);
           $state.go('app.main.orders');
           $log.log('signed in against Auth0');
