@@ -30,14 +30,14 @@ describe('Module: app.main.drinkMenu', function(){
     caller = createController();
   }));
 
-  describe('DrinkMenuCtrl.deleteDrink', function(){
-    it('should delete a drink', function(){
+  // describe('DrinkMenuCtrl.deleteDrink', function(){
+  //   it('should delete a drink', function(){
 
-      var drink = { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 };
-      caller.deleteDrink(drink, 0);
-      $scope.drinks = $store.getDrinks();
-      expect($scope.drinks['wine'].indexOf(drink)).to.equal(-1);
-      console.log($scope.drinks['wine']);
-    });
-  });
+  //     var drink = { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 };
+  //     caller.deleteDrink(drink, 0);
+  //     $scope.drinks = $store.getDrinks();
+  //     expect($scope.drinks['wine'].indexOf(drink)).to.equal(-1);
+  //     console.log($scope.drinks['wine']);
+  //   });
+  // });
 });

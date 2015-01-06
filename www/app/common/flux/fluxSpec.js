@@ -30,11 +30,11 @@ describe('Module: app.common.flux', function(){
     expect($actions).to.have.property('changeOrderStatus');
   });
 
-  // it('should delete a drink', function(){
-  //   var drink = { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 }
-  //   $actions.deleteDrink(drink, 0);
-  //   var drinks = $store.getDrinks();
-  //   expect(drinks['wine'].indexOf(drink)).to.equal(-1);
-  //   console.log(drinks['wine']);
-  // });
+  it('should delete a drink', function(){
+    var drink = { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 }
+    $actions.deleteDrink(drink, 0);
+    var drinks = $store.getDrinks();
+    expect(drinks['wine'].indexOf(drink)).to.equal(-1);
+    console.log(drinks['wine']);
+  });
 });

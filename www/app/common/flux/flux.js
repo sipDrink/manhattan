@@ -141,7 +141,7 @@ angular.module('app.common.flux', [
         var category = drink.category.toLowerCase();
         this.drinks[category].splice(index, 1);
         this.removeEmpty(category);
-        // this.emitChange();
+        this.emitChange();
       },
 
       editDrink: function(drink, index){

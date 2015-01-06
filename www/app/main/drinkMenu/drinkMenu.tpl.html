@@ -62,11 +62,11 @@
             
           </div>
             <ion-option-button class="button-info"
-                  ng-click="menu.editDrink(drink, $index)">
+                  ng-click="drinkMenu.editDrink(drink, $index)">
                 Edit
             </ion-option-button>
             <ion-delete-button class="ion-minus-circled"
-                               ng-click="menu.deleteDrink(drink, index)">
+                               ng-click="drinkMenu.deleteDrink(drink, index)">
             </ion-delete-button>
           </ion-item>
         </ion-list>
@@ -78,5 +78,5 @@
 </ion-pane>
 <ion-footer-bar align-title="center" class='bar-assertive'> 
     <button class="button button-icon icon ion-ios7-minus-outline" 
-          ng-click="menu.toggleDelete()"></button>
+          ng-click="drinkMenu.toggleDelete()"></button>
 </ion-footer-bar>
