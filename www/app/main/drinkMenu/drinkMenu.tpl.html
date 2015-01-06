@@ -11,7 +11,7 @@
         <div class="col">
           <md-content class="drinkMenu-view" md-theme="docs-dark" ng-controller="DrinkMenuCtrl">
             
-            <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
+            <!-- <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center"> -->
               <div layout="row" layout-align="center center">
                 
                 <div flex>
@@ -24,34 +24,36 @@
                     <div class="input-label">
                       Category
                     </div>
-                  <select>
-                    <option ng-repeat="drink in drinks">{{ drink.category }}</option>
-                  </select>
+                  <select ng-options="drink.category for drink in drinks" ng-model="drink.category"></select>
+                  <!-- <select>
+                    <option ng-repeat="drink in drinks" ng-model="drink.category">{{ drink.category }}</option>
+                  </select> -->
                   </label>
                     
                 </div>
                 
                 <div flex>          
-                  <md-text-float type="text" label="Enter drink name" ng-model="drink">
+                  <md-text-float type="text" label="Enter drink name" ng-model="drink.name">
                 </div>
               
                 <div flex>
-                  <md-text-float type="text" label="Price">
+                  <md-text-float type="text" label="Price" ng-model="drink.price">
                 </div>
                 
                 <div flex>
-                  <md-button class="md-raised">Add Item</md-button>
+                  <md-button class="md-raised" ng-click="addDrink()">Add Item</md-button>
                 </div>
                 
               </div>
-            </md-whiteframe>
+            <!-- </md-whiteframe> -->
       
             <div layout="row">
               <div flex>
-               <!-- empty div for alignment -->
+              </div>
+              <div flex align="center">
+                <md-text-float class="search" type="text" label="Search Menu" ng-model="menu.search">
               </div>
               <div flex>
-                <md-text-float type="text" label="Search">
               </div>
             </div>
           </md-content>
