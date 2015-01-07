@@ -19,6 +19,7 @@ angular.module('app.main.drinkMenu.drink', [])
     };
 
     $scope.confirmEdit = function(){
+      
       $actions.confirmEdit($scope.target);
       $scope.closeModal();
     };
