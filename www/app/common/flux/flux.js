@@ -101,9 +101,7 @@ angular.module('app.common.flux', [
      ],
 
       //temp storage for timeouts to be executed for drink orders
-      promises: {
-
-      },
+      promises: {},
 
       reset: function() {
         $log.log('resetting $store');
@@ -182,7 +180,7 @@ angular.module('app.common.flux', [
 
       _findOrderById : function(_id) {
         for(var i = 0; i < this.orders.length; i++){
-          if(this.orders[i]._id === _id){
+          if(this.orders[i]._id === _id) {
             return i;
           }
         }
@@ -191,7 +189,6 @@ angular.module('app.common.flux', [
 
       /* for orders */
       changeOrderStatus: function(orderIndex, status) {
-
         var orderId = this.orders[orderIndex]._id;
         var self = this;
 
@@ -199,22 +196,20 @@ angular.module('app.common.flux', [
         if(this.promises[orderId]){
           $timeout.cancel(this.promises[orderId]);
         }
-
         this.orders[orderIndex].status = status;
 
-        // this.emit('orders:changed');
-
         //save promise to temp storage in case if we want to cancel it later
-        var timeout = $timeout(function() {
+        this.promises[orderId] = $timeout(function() {
+          var order;
           var orderIndex = self._findOrderById(orderId);
           if(orderIndex === -1){
             return;
           }
           if(status === 'redeemed') { //remove order if it is redeemed
-            var order = self.orders.splice(orderIndex,1)[0];
+            order = self.orders.splice(orderIndex,1)[0];
             self.emit('orders:changed'); //let model know orders changed
           } else {
-            var order = self.orders[orderIndex];
+            order = self.orders[orderIndex];
           }
           delete self.promises[orderId]; //delete the promise if order is removed
           $dispatcher.pub(
@@ -228,7 +223,6 @@ angular.module('app.common.flux', [
               }
             }, 'orders');
         }, 3000);
-        this.promises[orderId] = timeout;
       },
 
       receiveOrder: function(order) {
@@ -311,7 +305,7 @@ angular.module('app.common.flux', [
           channel: channel,
           message: message,
           callback: function() {
-            $log.log('pubbed');
+            $log.log('pubbed to channel:', channel);
           }
         }); 
       }

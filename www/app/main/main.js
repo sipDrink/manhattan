@@ -26,6 +26,7 @@ angular.module('app.main', [
     this.signout = function() {
       Auth.signout();
     };
+
     this.activateItem = function(id){
       this.active_order = '';
       this.active_menu = '';
@@ -40,7 +41,6 @@ angular.module('app.main', [
       }
       
     };
-
 
     // this.nav = function(what){
     //   $log.log('$mdSidenav ', what);
