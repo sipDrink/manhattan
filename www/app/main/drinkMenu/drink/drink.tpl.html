@@ -6,7 +6,6 @@
   <ion-content class='drink-view'> 
 	<md-content ng-controller="DrinkCtrl">
 	  <form layout='column' layout-align="center">
-
 	    <label class="item item-input item-select">
 		    <div class="input-label">
 		      Category
@@ -20,11 +19,9 @@
 	      </option>
 	    </select>
 	    </label>
-       
         <md-text-float label="Drink Name" ng-model="target.name"> </md-text-float>
         <md-text-float label="Price" ng-model="target.price" type='tel'></md-text-float>
       </form>
-	    
       <md-whiteframe class="md-whiteframe-z5" layout layout-align="end">
 		    <md-button class="drink-view-btn" ng-click="confirmEdit()">OK</md-button> 
 	        <md-button class="drink-view-btn" ng-click="cancelEdit()">Cancel</md-button>

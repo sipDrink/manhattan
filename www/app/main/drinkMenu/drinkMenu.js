@@ -18,8 +18,8 @@ angular.module('app.main.drinkMenu', [
 		  
 	  $store.bindTo($scope, function(){
 		  $scope.opts = $store.getListOpts();
-			$scope.drinks = $store.getDrinks();
-			$scope.categories = $store.getCategories();
+		  $scope.drinks = $store.getDrinks();
+		  $scope.categories = $store.getCategories();
 	  });
 
 
@@ -28,7 +28,7 @@ angular.module('app.main.drinkMenu', [
 	  };
 	  
 	  this.addDrink = function(){
-		  $actions.addDrink();
+		$actions.addDrink();
 	  };
 
 	  this.deleteDrink = function(drink, index) {
