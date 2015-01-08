@@ -1,4 +1,5 @@
 angular.module('app.main.drinkMenu', [
+	'ui.router', 
 	'app.main.drinkMenu.drink'
 	])
 	.config(function($stateProvider) {
@@ -16,10 +17,11 @@ angular.module('app.main.drinkMenu', [
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
 		  
 	  $store.bindTo($scope, function(){
-	  	$scope.opts = $store.getListOpts();
-		$scope.drinks = $store.getDrinks();
-		$scope.categories = $store.getCategories();
+		  $scope.opts = $store.getListOpts();
+		  $scope.drinks = $store.getDrinks();
+		  $scope.categories = $store.getCategories();
 	  });
+
 
 	  this.toggleDelete = function(){
   		$actions.toggleDelete();
