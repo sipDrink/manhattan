@@ -47,14 +47,7 @@ angular.module('app.common.flux', [
         showDelete: false,
         shouldSwipe: true
       },
-      //drinks are used for testing
-      // drinks: [
-      //   { name: 'Grey Goose',category: 'Shot', price: 80 },
-      //   { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
-      //   { name: 'Captain Morgan', category: 'Rum', price:43 },
-      //   { name: 'Fireball', category: 'Whisky', price: 32},
-      //   { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
-      // ],
+    
       drinks: {
         shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
                { name: 'Patron', category:'Shot', price: 7},
