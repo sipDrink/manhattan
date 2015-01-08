@@ -1,52 +1,51 @@
-<ion-pane class="drinkMenu-view" ng-controller="DrinkMenuCtrl">     
-  <!-- <div class="col"> -->
+<ion-pane class="drinkMenu-view theme-bg" ng-controller="DrinkMenuCtrl">     
     <ion-content scroll="false">
       <div class="row">
         <div class="col">
-          <md-content>
-            <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
-              <div layout="row" layout-align="center center">
-                <div flex>
+          <div>
+              <div class='form-bg add-drink-box' layout="row" layout-align="space-between center">
+                <div>
                   <label class="item item-input item-select">
                     <div class="input-label">
                       Category
                     </div>
                   <select>
-                    <option ng-repeat="drink in drinks">{{ drink.category }}</option>
+                    <option ng-repeat="category in categories">{{category }}</option>
                   </select>
                   </label>
-                    
                 </div>
-                
-                <div flex>          
-                  <md-text-float type="text" label="Enter drink name" ng-model="drink">
+                <div>          
+                  <md-text-float type="text" label="Drink Name" ng-model="new_drink">
                 </div>
-              
-                <div flex>
-                  <md-text-float type="text" label="Price">
+                <div>
+                  <md-text-float type="tel" label="Price" ng-model="new_price">
                 </div>
-                
-                <div flex>
-                  <md-button class="md-raised">Add Item</md-button>
+                <div>
+                  <md-button class="md-fab icon ion-plus add-btn">
+                  <md-tooltip>add a drink</md-tooltip>
+                  </md-button>
+
                 </div>
-                
               </div>
-            </md-whiteframe>
-            <div layout="row">
-              <div flex>
-               <!-- empty div for alignment -->
+            <div layout="row" layout-align='space-between center' class='search-box'>
+              <div>
+                <h1>Drink Menu</h1>
               </div>
-              <div flex>
-                <md-text-float type="text" label="Search">
+              <div class="list list-inset">
+                  <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="Search a drink" ng-model='searchDrink'>
+                  </label>
               </div>
+             
             </div>
-          </md-content>
+          </div>
         </div>
       </ion-content>
     </div>
 <!-- Menu List -->
-    <div class="row">
-      <ion-scroll style="width: 100%; height: 500px">
+    <div class="drink-list row">
+      <ion-scroll>
         <ion-list show-delete="opts.showDelete"
                   can-swipe="opts.shouldSwipe"
                   ng-repeat="(category, cate_drinks) in drinks" >
@@ -54,7 +53,8 @@
             {{category.toUpperCase()}}
           </ion-item>
           <ion-item class='drink-item'
-            ng-repeat="drink in cate_drinks">
+            ng-class='{"last":$last}'
+            ng-repeat="drink in cate_drinks | filter:searchDrink">
 
           <div layout="row">
             <div flex="90" flex-sm="10">{{drink.name}}</div>
@@ -73,10 +73,9 @@
   
       </ion-scroll>
     </div>
-  <!-- </div> -->
-
 </ion-pane>
 <ion-footer-bar align-title="center" class='bar-assertive'> 
-    <button class="button button-icon icon ion-ios7-minus-outline" 
-          ng-click="drinkMenu.toggleDelete()"></button>
+    <button class="button button-icon icon ion-ios7-minus-outline" ng-click="drinkMenu.toggleDelete()">
+      <md-tooltip>delete</md-tooltip>
+    </button>
 </ion-footer-bar>

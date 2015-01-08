@@ -21,7 +21,7 @@ angular.module('app.common.flux', [
       'confirmEdit'
     ]);
   })
-  .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter, $timeout) {
+  .factory('$store', function(flux, $actions, localStorageService, $log, ngGeodist, $filter, $timeout) {
 
     // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
@@ -47,16 +47,11 @@ angular.module('app.common.flux', [
         showDelete: false,
         shouldSwipe: true
       },
-      //drinks are used for testing
-      // drinks: [
-      //   { name: 'Grey Goose',category: 'Shot', price: 80 },
-      //   { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
-      //   { name: 'Captain Morgan', category: 'Rum', price:43 },
-      //   { name: 'Fireball', category: 'Whisky', price: 32},
-      //   { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}
-      // ],
+    
       drinks: {
-        shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 }],
+        shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
+               { name: 'Patron', category:'Shot', price: 7},
+               { name: 'Shot', category:'Shot', price:32}],
         wine: [{ name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
                { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
         rum:  [{ name: 'Captain Morgan', category: 'Rum', price:43 }],
