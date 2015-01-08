@@ -1,19 +1,25 @@
 <ion-view title="auth">
   <ion-content class="auth-view">
-    <md-content>
-      <div layout="column" layout-align="space-around center">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+    <div class="overlay">
+    </div>
+    <div class="auth-background">
+    </div>
+    <div class="auth-content">
+      <div layout="column" layout-align="space-around">
         <div class="home-logo">
-          <h1>Sip</h1>
+          <h1>sip</h1>
         </div>
-        <div>
-          <md-button class="md-raised md-primary" ng-click="auth.signIn()">
-            signin
+        <div class="auth-tagline">
+          <p>  drink ordering made easy</p>
+        </div>
+        <div class="auth-buttonContainer">
+          <md-button class="md-raised md-primary auth-button" ng-click="auth.signIn()">
+            sign in
           </md-button>
         </div>
       </div>
-    </md-content>
+    </div>
   </ion-content>
-
 </ion-view>
-
 
