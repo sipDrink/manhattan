@@ -21,7 +21,8 @@ angular.module('app.common.flux', [
       'confirmEdit'
     ]);
   })
-  .factory('$store', function(flux, $actions, localStorageService, $log, ngGeodist, $filter, $timeout) {
+  .factory('$store', function(flux, $actions, localStorageService, $log,
+                              ngGeodist, $filter, $timeout) {
 
     // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
@@ -47,53 +48,53 @@ angular.module('app.common.flux', [
         showDelete: false,
         shouldSwipe: true
       },
-    
+
       drinks: {
-        shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
-               { name: 'Patron', category:'Shot', price: 7},
-               { name: 'Shot', category:'Shot', price:32}],
-        wine: [{ name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
-               { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
-        rum:  [{ name: 'Captain Morgan', category: 'Rum', price:43 }],
-        whisky: [{ name: 'Fireball', category: 'Whisky', price: 32}]
+        shot: [{name: 'Grey Goose', category: 'Shot', price: 80},
+               {name: 'Patron', category:'Shot', price: 7},
+               {name: 'Shot', category:'Shot', price:32}],
+        wine: [{name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18},
+               {name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
+        rum:  [{name: 'Captain Morgan', category: 'Rum', price:43}],
+        whisky: [{name: 'Fireball', category: 'Whisky', price: 32}]
       },
 
       categories: [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
         'Cognac', 'Vodka', 'Tequila', 'Rum'
       ],
-     
-     //orders: {} are used for testing
-     orders: [
-       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
-                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
-                  { name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
-                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
-                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
-                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+
+      //orders: {} are used for testing
+      orders: [
+        {drinks: [{name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 3},
+                  {name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  {name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  {name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
          customer: {name: 'Jessica'},
          _id: '1234a',
          status: 'paidFor'},
-       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 8},
-                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 5}],
+        {drinks: [{name: 'Grey Goose',category: 'Shot', price: 80, quantity: 8},
+                  {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 , quantity: 5}],
          customer: {name: 'Daniel'},
          _id: '1244a',
          status: 'paidFor'},
-       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 1},
-                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 4},
-                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
-                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 2}],
+        {drinks: [{name: 'Grey Goose', category: 'Shot', price: 80, quantity: 1},
+                  {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 4},
+                  {name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  {name: 'Fireball', category: 'Whisky', price: 32, quantity: 2}],
          customer: {name: 'Louie'},
          _id: '2234a',
          status: 'paidFor'},
-       { drinks: [{ name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
-                  { name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
-                  { name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
-                  { name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
+        {drinks: [{name: 'Grey Goose',category: 'Shot', price: 80, quantity: 4},
+                  {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18, quantity: 1},
+                  {name: 'Captain Morgan', category: 'Rum', price:43, quantity: 1},
+                  {name: 'Fireball', category: 'Whisky', price: 32, quantity: 1}],
          customer: {name: 'Wuwu'},
          _id: '3324a',
          status: 'paidFor'}
-     ],
+      ],
 
       //temp storage for timeouts to be executed for drink orders
       promises: {},

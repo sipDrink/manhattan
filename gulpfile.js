@@ -12,6 +12,7 @@ var reload = bs.reload;
 var IF = require('gulp-if');
 var jshint = require('gulp-jshint');
 var stylus = require('gulp-stylus');
+var jscs = require('gulp-jscs');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -72,6 +73,11 @@ gulp.task('jshint', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(IF(!bs.active, jshint.reporter('fail')));
+});
+
+gulp.task('jscs', function() {
+  return gulp.src(paths.js)
+    .pipe(jscs())
 });
 
 gulp.task('serve', function() {
