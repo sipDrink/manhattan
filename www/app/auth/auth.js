@@ -7,7 +7,8 @@ angular.module('app.auth', [])
         controller: 'AuthCtrl as auth'
       });
   })
-  .controller('AuthCtrl', function($scope, $state, $actions, $dispatcher, $log, Auth) {
+  .controller('AuthCtrl', function($scope, $state, $actions, $dispatcher, $log,
+                                   Auth) {
     this.signIn = function() {
       Auth.signin()
         .then(function(user) {
@@ -22,7 +23,8 @@ angular.module('app.auth', [])
     };
 
   })
-  .factory('Auth', function(localStorageService, jwtHelper, $ionicHistory, $actions, $q, $state, auth, $log, $mdSidenav) {
+  .factory('Auth', function(localStorageService, jwtHelper, $ionicHistory,
+                            $actions, $q, $state, auth, $log, $mdSidenav) {
 
     var signin = function() {
       var defer = $q.defer();
@@ -50,7 +52,7 @@ angular.module('app.auth', [])
         defer.resolve(profile);
       }, function(error) {
         defer.reject(error);
-        $log.error("There was an error logging in", error);
+        $log.error('There was an error logging in', error);
       });
       return defer.promise;
     };

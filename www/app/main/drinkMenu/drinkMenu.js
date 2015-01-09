@@ -1,33 +1,33 @@
 angular.module('app.main.drinkMenu', [
-	'ui.router', 
+	'ui.router',
 	'app.main.drinkMenu.drink'
 	])
 	.config(function($stateProvider) {
 	  $stateProvider
-	    .state('app.main.drinkMenu', {
-	      url: '/drinkMenu',
-	      views:{
-	     	'menuContent':{
-		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-		       controller: 'DrinkMenuCtrl as drinkMenu'
-	      	}
-	      }
-	    });
-	})
-	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
+      .state('app.main.drinkMenu', {
+        url: '/drinkMenu',
+        views:{
+          'menuContent':{
+            templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
+            controller: 'DrinkMenuCtrl as drinkMenu'
+          }
+        }
+      });
+  })
+	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
+                                        $log) {
 
-	  $store.bindTo($scope, function(){
-		  $scope.opts = $store.getListOpts();
-		  $scope.drinks = $store.getDrinks();
-		  $scope.categories = $store.getCategories();
-	  });
+    $store.bindTo($scope, function() {
+      $scope.opts = $store.getListOpts();
+      $scope.drinks = $store.getDrinks();
+      $scope.categories = $store.getCategories();
+    });
 
+    this.toggleDelete = function() {
+      $actions.toggleDelete();
+    };
 
-	  this.toggleDelete = function(){
-  		$actions.toggleDelete();
-	  };
-	  
-	  this.addDrink = function(drink){
+    this.addDrink = function(drink) {
       $actions.addDrink(drink);
       //clear input fields for next item
       $scope.$$childHead.$$childHead.drink = {

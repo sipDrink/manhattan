@@ -14,7 +14,7 @@ describe('Module: starter', function() {
   describe('dependencies', function() {
     var deps;
 
-    var hasModule = function(m){
+    var hasModule = function(m) {
       return deps.indexOf(m) >= 0;
     };
 
@@ -38,9 +38,6 @@ describe('Module: starter', function() {
       expect(hasModule('app.auth')).to.be.true;
     });
 
-
   });
-
-
 
 });
