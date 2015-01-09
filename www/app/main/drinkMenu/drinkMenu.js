@@ -15,7 +15,9 @@ angular.module('app.main.drinkMenu', [
 	    });
 	})
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
-		  
+	  //load drinks, drinkMixers and drinkTypes from server
+      $actions.loadDrink();
+
 	  $store.bindTo($scope, function(){
 		  $scope.opts = $store.getListOpts();
 		  $scope.drinks = $store.getDrinks();

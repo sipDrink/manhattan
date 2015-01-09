@@ -12,6 +12,7 @@ angular.module('app.common.flux', [
       'receiveUser',
       'reset',
       'toggleDelete',
+      'loadDrink',
       'addDrink',
       'deleteDrink',
       'editDrink',
@@ -31,6 +32,7 @@ angular.module('app.common.flux', [
         $actions.receiveUser,
         $actions.reset,
         $actions.toggleDelete,
+        $actions.loadDrink,
         $actions.addDrink,
         $actions.deleteDrink,
         $actions.editDrink,
@@ -47,8 +49,8 @@ angular.module('app.common.flux', [
         showDelete: false,
         shouldSwipe: true
       },
-    
-      drinks: {
+
+      drinkList: {
         shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
                { name: 'Patron', category:'Shot', price: 7},
                { name: 'Shot', category:'Shot', price:32}],
@@ -60,7 +62,8 @@ angular.module('app.common.flux', [
 
       categories: [
         'Shot', 'Wine', 'Beer', 'Whisky', 'Scotch',
-        'Cognac', 'Vodka', 'Tequila', 'Rum'
+        'Cognac', 'Vodka', 'Tequila', 'Rum', 'Mixer',
+        'Cocktail'
       ],
      
      //orders: {} are used for testing
@@ -103,7 +106,7 @@ angular.module('app.common.flux', [
       reset: function() {
         $log.log('resetting $store');
         this.user = {};
-        this.drinks = [];
+        this.drinkList = [];
         this.orders = [];
         this.categories = [];
         this.listOpts = {};
@@ -127,9 +130,35 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
+      loadDrink:function(){
+        //load drinks
+        if(this.user.drinkTypes.length > 0){
+          this.user.drinkTypes.forEach(function(item){
+            var category = item.category.toLowerCase();
+            if(!this.drinkList[category]){
+              this.drinkList[category] = [item];
+            }else{
+              this.drinkList[category].push(item);
+            }
+          });
+        }
+        //load mixers
+        if(this.user.drinkMixers.length > 0){
+          this.drinkList.mixers = this.user.drinkMixers;
+        }
+
+        //load cocktails: [{name, price, ingredients:[]},...]
+        if(this.user.drinks.length > 0){
+          this.drinkList.cocktail = this.user.drinks;
+        }
+
+        this.emitChange();
+        // console.log('loading drinks',this.drinkMixers);
+      },
+
       addDrink: function(drink){
         this.listOpts.showDelete = false;
-        this.drinks.push({name: drink.name, 
+        this.drinkList.push({name: drink.name, 
           category: drink.category, 
           price: drink.price});
         this.emitChange();
@@ -137,7 +166,7 @@ angular.module('app.common.flux', [
 
       deleteDrink: function(drink, index){
         var category = drink.category.toLowerCase();
-        this.drinks[category].splice(index, 1);
+        this.drinkList[category].splice(index, 1);
         this.removeEmpty(category);
         this.emitChange();
       },
@@ -147,24 +176,24 @@ angular.module('app.common.flux', [
         this.original_drink.category = drink.category.toLowerCase();
         this.original_drink.index = index;
       },
-      //it checks numbers of drinks in the category, remove category from menu if no drink found  
+      //it checks numbers of drinkList in the category, remove category from menu if no drink found  
       removeEmpty: function(category){
-        if(this.drinks[category].length === 0)
-          delete this.drinks[category];
+        if(this.drinkList[category].length === 0)
+          delete this.drinkList[category];
       },
 
       /* for drink */
       confirmEdit: function(drink){
         //move drink to another category if category is changed
         if(this.original_drink.category !== drink.category.toLowerCase()){
-          this.drinks[this.original_drink.category].splice(this.original_drink.index, 1);
+          this.drinkList[this.original_drink.category].splice(this.original_drink.index, 1);
           this.removeEmpty(this.original_drink.category);
-          this.drinks[drink.category.toLowerCase()] = this.drinks[drink.category.toLowerCase()] || [];
-          this.drinks[drink.category.toLowerCase()].push(drink);
+          this.drinkList[drink.category.toLowerCase()] = this.drinkList[drink.category.toLowerCase()] || [];
+          this.drinkList[drink.category.toLowerCase()].push(drink);
         }else{
-          this.drinks[this.original_drink.category][this.original_drink.index].name = drink.name;
-          this.drinks[this.original_drink.category][this.original_drink.index].category = drink.category;
-          this.drinks[this.original_drink.category][this.original_drink.index].price = drink.price;
+          this.drinkList[this.original_drink.category][this.original_drink.index].name = drink.name;
+          this.drinkList[this.original_drink.category][this.original_drink.index].category = drink.category;
+          this.drinkList[this.original_drink.category][this.original_drink.index].price = drink.price;
         }
 
         this.emitChange();
@@ -242,7 +271,7 @@ angular.module('app.common.flux', [
           return this.listOpts;
         },
         getDrinks: function(){
-          return this.drinks;
+          return this.drinkList;
         },
         getOrders: function(){
           return this.orders;
