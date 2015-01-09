@@ -127,9 +127,8 @@ angular.module('app.common.flux', [
 
       addDrink: function(drink){
         this.listOpts.showDelete = false;
-        this.drinks.push({name: drink.name, 
-          category: drink.category, 
-          price: drink.price});
+        this.drinks[drink.category.toLowerCase()] = this.drinks[drink.category.toLowerCase()] || [];
+        this.drinks[drink.category.toLowerCase()].push(drink);
         this.emitChange();
       },
 
