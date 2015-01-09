@@ -12,23 +12,23 @@
                       Category
                     </div>
 
-                  <select>
-                    <option ng-repeat="drink in drinks">{{ drink.category }}</option>
+                  <select ng-model="drink.category">
+                    <option value="{{category}}" ng-repeat="category in categories">{{ category }}</option>
                   </select>
                   </label>
                     
                 </div>
                 
                 <div flex>          
-                  <md-text-float type="text" label="Enter drink name" ng-model="drink">
+                  <md-text-float ng-model="drink.name" type="text" label="Enter drink name">
                 </div>
               
                 <div flex>
-                  <md-text-float type="text" label="Price">
+                  <md-text-float ng-model="drink.price" type="text" label="Price">
                 </div>
                 
                 <div flex>
-                  <md-button class="md-raised">Add Item</md-button>
+                  <md-button class="md-raised" ng-click="drinkMenu.addDrink(drink)">Add Item</md-button>
                 </div>
                 
               </div>
