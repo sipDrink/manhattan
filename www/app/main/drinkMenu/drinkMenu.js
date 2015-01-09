@@ -15,7 +15,7 @@ angular.module('app.main.drinkMenu', [
 	    });
 	})
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
-		  
+
 	  $store.bindTo($scope, function(){
 		  $scope.opts = $store.getListOpts();
 		  $scope.drinks = $store.getDrinks();
@@ -27,8 +27,14 @@ angular.module('app.main.drinkMenu', [
   		$actions.toggleDelete();
 	  };
 	  
-	  this.addDrink = function(){
-		$actions.addDrink();
+	  this.addDrink = function(drink){
+      $actions.addDrink(drink);
+      //clear input fields for next item
+      $scope.$$childHead.$$childHead.drink = {
+        category: '',
+        name: '',
+        price: ''
+      };
 	  };
 
 	  this.deleteDrink = function(drink, index) {
