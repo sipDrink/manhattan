@@ -9,22 +9,25 @@
                     <div class="input-label">
                       Category
                     </div>
-                  <select>
-                    <option ng-repeat="category in categories">{{category }}</option>
+
+                  <select ng-model="drink.category">
+                    <option value="{{category}}" ng-repeat="category in categories">{{ category }}</option>
                   </select>
                   </label>
                 </div>
+                
                 <div>          
-                  <md-text-float type="text" label="Drink Name" ng-model="new_drink">
+                  <md-text-float ng-model="drink.name" type="text" label="Drink name">
                 </div>
+              
                 <div>
-                  <md-text-float type="tel" label="Price" ng-model="new_price">
+                  <md-text-float ng-model="drink.price" type="text" label="Price">
                 </div>
+                
                 <div>
-                  <md-button class="md-fab icon ion-plus add-btn">
+                  <md-button class="md-fab icon ion-plus add-btn" ng-click="drinkMenu.addDrink(drink)">
                   <md-tooltip>add a drink</md-tooltip>
                   </md-button>
-
                 </div>
               </div>
             <div layout="row" layout-align='space-between center' class='search-box'>
@@ -66,7 +69,7 @@
                 Edit
             </ion-option-button>
             <ion-delete-button class="ion-minus-circled"
-                               ng-click="drinkMenu.deleteDrink(drink, index)">
+                               ng-click="drinkMenu.deleteDrink(drink)">
             </ion-delete-button>
           </ion-item>
         </ion-list>

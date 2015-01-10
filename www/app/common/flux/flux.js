@@ -14,16 +14,19 @@ angular.module('app.common.flux', [
       'toggleDelete',
       'loadDrink',
       'addDrink',
+      'addDrinkToStore',
       'deleteDrink',
+      'deleteDrinkFromStore',
       'editDrink',
+      'editDrinkFromStore',
       'changeOrderStatus',
       'receiveOrder',
       'cancelEdit',
       'confirmEdit'
     ]);
   })
-  .factory('$store', function(flux, $actions, localStorageService, $log, ngGeodist, $filter, $timeout) {
-
+  .factory('$store', function(flux, $actions, $dispatcher, localStorageService, $log, ngGeodist, $filter, $timeout) {
+    
     // here we return our store to be accessed by those taking in a $store obj
     return flux.store({
       // these actions will map to handlers with the same name that will be run
@@ -34,8 +37,11 @@ angular.module('app.common.flux', [
         $actions.toggleDelete,
         $actions.loadDrink,
         $actions.addDrink,
+        $actions.addDrinkToStore,
         $actions.deleteDrink,
+        $actions.deleteDrinkFromStore,
         $actions.editDrink,
+        $actions.editDrinkFromStore,
         $actions.changeOrderStatus,
         $actions.receiveOrder,
         $actions.cancelEdit,
@@ -51,13 +57,13 @@ angular.module('app.common.flux', [
       },
 
       drinkList: {
-        shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
-               { name: 'Patron', category:'Shot', price: 7},
-               { name: 'Shot', category:'Shot', price:32}],
-        wine: [{ name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
-               { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
-        rum:  [{ name: 'Captain Morgan', category: 'Rum', price:43 }],
-        whisky: [{ name: 'Fireball', category: 'Whisky', price: 32}]
+        // shot: [{ name: 'Grey Goose',category: 'Shot', price: 80 },
+        //        { name: 'Patron', category:'Shot', price: 7},
+        //        { name: 'Shot', category:'Shot', price:32}],
+        // wine: [{ name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 },
+        //        { name: '2009 Doninus Napa Valley Bordeaux Blend', category: 'Wine', price:23}],
+        // rum:  [{ name: 'Captain Morgan', category: 'Rum', price:43 }],
+        // whisky: [{ name: 'Fireball', category: 'Whisky', price: 32}]
       },
 
       categories: [
@@ -126,7 +132,6 @@ angular.module('app.common.flux', [
       /* for drinkMenu */
       toggleDelete: function(){
         this.listOpts.showDelete = !this.listOpts.showDelete;
-        this.listOpts.showReorder = false;
         this.emitChange();
       },
 
@@ -157,17 +162,55 @@ angular.module('app.common.flux', [
       },
 
       addDrink: function(drink){
+        //drinkTypes(liquor), drinks(specialty)
         this.listOpts.showDelete = false;
-        this.drinkList.push({name: drink.name, 
-          category: drink.category, 
-          price: drink.price});
-        this.emitChange();
+        $dispatcher.pub(
+            { actions: { 
+                addDrink: {
+                  drinkInfo: {
+                    bar: this.user.user_id.split('|')[1],
+                    drink: drink
+                  }
+                }
+              },
+              respondTo: {
+                channel: this.user.private_channel,
+                action: 'addDrinkToStore'
+              }
+            }, 'drinks');
       },
 
-      deleteDrink: function(drink, index){
-        var category = drink.category.toLowerCase();
-        this.drinkList[category].splice(index, 1);
-        this.removeEmpty(category);
+      addDrinkToStore: function(drink){
+        this.drinkList[drink.category.toLowerCase()] = this.drinkList[drink.category.toLowerCase()] || [];
+        this.drinkList[drink.category.toLowerCase()].push(drink);
+        this.emitChange();
+      },
+     
+      deleteDrink: function(drink){
+        console.log(this.drinkList);
+        this.original_drink.category = drink.category.toLowerCase();
+
+        $dispatcher.pub(
+          { actions: { 
+              deleteDrink: {
+                drinkInfo: {
+                  bar: this.user.user_id.split('|')[1],
+                  drink: drink
+                }
+            }
+          },
+          respondTo: {
+            channel: this.user.private_channel,
+            action: 'deleteDrinkFromStore'
+          }
+        }, 'drinks');
+      },
+
+      deleteDrinkFromStore: function(drink) {
+        //delete the drink in category args[1] with id args[0]
+        var arr = this.drinkList[drink.category.toLowerCase()];
+        arr.splice(this._findById(drink._id, arr), 1);  
+        this.removeEmpty(drink.category.toLowerCase());
         this.emitChange();
       },
 
@@ -176,6 +219,7 @@ angular.module('app.common.flux', [
         this.original_drink.category = drink.category.toLowerCase();
         this.original_drink.index = index;
       },
+
       //it checks numbers of drinkList in the category, remove category from menu if no drink found  
       removeEmpty: function(category){
         if(this.drinkList[category].length === 0)
@@ -184,10 +228,28 @@ angular.module('app.common.flux', [
 
       /* for drink */
       confirmEdit: function(drink){
+        $dispatcher.pub(
+          { actions: { 
+              editDrink: {
+                drinkInfo: {
+                  bar: this.user.user_id.split('|')[1],
+                  drink: drink
+                }
+            }
+          },
+          respondTo: {
+            channel: this.user.private_channel,
+            action: 'editDrinkFromStore'
+          }
+        }, 'drinks');
+      },
+
+      editDrinkFromStore: function(drink){
         //move drink to another category if category is changed
         if(this.original_drink.category !== drink.category.toLowerCase()){
           this.drinkList[this.original_drink.category].splice(this.original_drink.index, 1);
           this.removeEmpty(this.original_drink.category);
+
           this.drinkList[drink.category.toLowerCase()] = this.drinkList[drink.category.toLowerCase()] || [];
           this.drinkList[drink.category.toLowerCase()].push(drink);
         }else{
@@ -204,9 +266,9 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      _findOrderById : function(_id) {
-        for(var i = 0; i < this.orders.length; i++){
-          if(this.orders[i]._id === _id){
+      _findById : function(_id, arr) {
+        for(var i = 0; i < arr.length; i++){
+          if(arr[i]._id === _id){
             return i;
           }
         }
@@ -215,7 +277,6 @@ angular.module('app.common.flux', [
 
       /* for orders */
       changeOrderStatus: function(orderIndex, status) {
-
         var orderId = this.orders[orderIndex]._id;
         var self = this;
 
@@ -230,7 +291,7 @@ angular.module('app.common.flux', [
 
         //save promise to temp storage in case if we want to cancel it later
         var timeout = $timeout(function() {
-          var orderIndex = self._findOrderById(orderId);
+          var orderIndex = self._findById(orderId, this.orders);
           if(orderIndex === -1){
             return;
           }
@@ -336,6 +397,10 @@ angular.module('app.common.flux', [
           message: message,
           callback: function() {
             $log.log('pubbed');
+            console.log('success publishing');
+          },
+          error: function(){
+            $log.error('error publishing to channel:', channel, 'with error:', e);
           }
         }); 
       }
