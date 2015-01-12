@@ -11,7 +11,7 @@ angular.module('app.main.orders', [])
         }
     });
   })
-  .controller('OrdersCtrl', function($scope, $actions, $store){
+  .controller('OrdersCtrl', function($scope, $actions, $store) {
     var status = ['paidFor', 'processed', 'redeemed'];
     var statusInts = {
       'paidFor': 0,

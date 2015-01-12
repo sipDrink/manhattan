@@ -46,9 +46,9 @@ angular.module('app.auth', [])
           // if there isnt:
             // set auth_key to 'auth0|####'
         }
-
-        // localStorageService.set('profile', profile);
+        // load bar data into $store
         $actions.receiveUser(profile);
+        $actions.loadDrink();
         defer.resolve(profile);
       }, function(error) {
         defer.reject(error);
