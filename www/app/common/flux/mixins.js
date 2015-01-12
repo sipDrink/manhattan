@@ -4,7 +4,8 @@
 * Store and Action mixins for resources
 */
 angular.module('app.common.flux.mixins', [])
-  .factory('UserMixin', function($actions, $dispatcher, $log, localStorageService) {
+  .factory('UserMixin', function($actions, $dispatcher, $log, 
+    localStorageService) {
     // Mixin for user actions and state
     var UserMixin = {
 

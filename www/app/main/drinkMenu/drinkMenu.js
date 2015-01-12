@@ -1,26 +1,29 @@
 angular.module('app.main.drinkMenu', [
-	'ui.router', 
+	'ui.router',
 	'app.main.drinkMenu.drink'
 	])
 	.config(function($stateProvider) {
 	  $stateProvider
-	    .state('app.main.drinkMenu', {
-	      url: '/drinkMenu',
-	      views:{
-	     	'menuContent':{
-		       templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
-		       controller: 'DrinkMenuCtrl as drinkMenu'
-	      	}
-	      }
-	    });
-	})
-	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal, $log){
 
-	  $store.bindTo($scope, function(){
-		  $scope.opts = $store.getListOpts();
-		  $scope.drinks = $store.getDrinks();
-		  $scope.categories = $store.getCategories();
-	  });
+      .state('app.main.drinkMenu', {
+        url: '/drinkMenu',
+        views:{
+          'menuContent':{
+            templateUrl: 'app/main/drinkMenu/drinkMenu.tpl.html',
+            controller: 'DrinkMenuCtrl as drinkMenu'
+          }
+        }
+      });
+	})
+	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
+                                        $log) {
+		
+    // $actions.loadDrink();
+    $store.bindTo($scope, function() {
+      $scope.opts = $store.getListOpts();
+      $scope.drinks = $store.getDrinks();
+      $scope.categories = $store.getCategories();
+    });
 
 	  this.toggleDelete = function(){
   		$actions.toggleDelete();
@@ -39,21 +42,20 @@ angular.module('app.main.drinkMenu', [
       }
 	  };
 
-	  this.deleteDrink = function(drink, index) {
-	    $actions.deleteDrink(drink, index);
-	  };
+    this.deleteDrink = function(drink) {
+      $actions.deleteDrink(drink);
+    };
 
-	  $ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
+		$ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {
+		  scope: $scope,
+		  animation: 'slide-in-up'
 		}).then(function(modal) {
-	    $scope.modal = modal;
-	  });
-	  
-	  this.editDrink = function(drink, index) {
-	    $actions.editDrink(drink, index);
-	    $scope.target = drink;
-	    $scope.modal.show();
-	  };
-
+		  $scope.modal = modal;
+		});
+	
+    this.editDrink = function(drink, index) {
+      $actions.editDrink(drink, index);
+      $scope.target = drink;
+      $scope.modal.show();
+    };
   });

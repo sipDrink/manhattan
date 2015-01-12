@@ -11,15 +11,13 @@ angular.module('app.main.drinkMenu.drink', [])
         }
       });
   })
-  .controller('DrinkCtrl', function($scope, $actions, $store, $stateParams){
-    
-    $scope.cancelEdit = function(){
+  .controller('DrinkCtrl', function($scope, $actions, $store, $stateParams) {
+    $scope.cancelEdit = function() {
       $actions.cancelEdit();
       $scope.closeModal();
     };
 
-    $scope.confirmEdit = function(){
-      
+    $scope.confirmEdit = function() {
       $actions.confirmEdit($scope.target);
       $scope.closeModal();
     };
