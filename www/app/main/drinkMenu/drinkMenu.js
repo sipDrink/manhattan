@@ -30,7 +30,7 @@ angular.module('app.main.drinkMenu', [
 	  };
 	  
 	  this.addDrink = function(drink){
-      if (drink.name !== undefined && drink.name !== '' &&
+      if (drink && drink.name !== undefined && drink.name !== '' &&
           drink.category !== undefined && drink.category !== '') {
         $actions.addDrink(drink);
         //clear input fields for next item
