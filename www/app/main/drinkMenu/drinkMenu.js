@@ -49,10 +49,10 @@ angular.module('app.main.drinkMenu', [
 		}).then(function(modal) {
 		  $scope.modal = modal;
 		});
-		
-      this.editDrink = function(drink, index) {
-	    $actions.editDrink(drink, index);
-	    $scope.target = drink;
-	    $scope.modal.show();
-      };
-    });
+	
+    this.editDrink = function(drink, index) {
+      $actions.editDrink(drink, index);
+      $scope.target = drink;
+      $scope.modal.show();
+    };
+  });
