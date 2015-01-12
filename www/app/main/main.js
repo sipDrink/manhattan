@@ -20,27 +20,28 @@ angular.module('app.main', [
         */
       });
   })
-  .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher, $ionicPopover, $ionicHistory, $log, $rootScope, $store, Auth) {
+  .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher,
+                                   $ionicPopover, $ionicHistory, $log,
+                                   $rootScope, $store, Auth) {
 
     $dispatcher.kickstart($store.getUser());
     this.signout = function() {
       Auth.signout();
     };
-    this.activateItem = function(id){
+
+    this.activateItem = function(id) {
       this.active_order = '';
       this.active_menu = '';
       this.active_settings = '';
-      switch(id){
+      switch (id){
         case 1:  this.active_order = 'act';
-            break;
+          break;
         case 2:  this.active_menu = 'act';
-            break;
+          break;
         case 3:  this.active_settings = 'act';
-            break;
+          break;
       }
-      
     };
-
 
     // this.nav = function(what){
     //   $log.log('$mdSidenav ', what);
@@ -61,4 +62,3 @@ angular.module('app.main', [
     //   return $ionicHistory.backTitle();
     // };
   });
-
