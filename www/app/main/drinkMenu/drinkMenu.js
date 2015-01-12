@@ -22,19 +22,21 @@ angular.module('app.main.drinkMenu', [
 		  $scope.categories = $store.getCategories();
 	  });
 
-
 	  this.toggleDelete = function(){
   		$actions.toggleDelete();
 	  };
 	  
 	  this.addDrink = function(drink){
-      $actions.addDrink(drink);
-      //clear input fields for next item
-      $scope.$$childHead.$$childHead.drink = {
-        category: '',
-        name: '',
-        price: ''
-      };
+      if (drink.name !== undefined && drink.name !== '' &&
+          drink.category !== undefined && drink.category !== '') {
+        $actions.addDrink(drink);
+        //clear input fields for next item
+        $scope.$$childHead.$$childHead.drink = {
+          category: '',
+          name: '',
+          price: ''
+        };
+      }
 	  };
 
 	  this.deleteDrink = function(drink, index) {
