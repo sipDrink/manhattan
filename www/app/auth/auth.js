@@ -24,7 +24,8 @@ angular.module('app.auth', [])
 
   })
   .factory('Auth', function(localStorageService, jwtHelper, $ionicHistory,
-                            $actions, $q, $state, auth, $log, $mdSidenav) {
+                            $actions, $q, $state, auth, $log, $mdSidenav,
+                            $dispatcher, $store) {
 
     var signin = function() {
       var defer = $q.defer();
@@ -49,6 +50,7 @@ angular.module('app.auth', [])
         // load bar data into $store
         $actions.receiveUser(profile);
         $actions.loadDrink();
+        $dispatcher.kickstart($store.getUser());
         defer.resolve(profile);
       }, function(error) {
         defer.reject(error);

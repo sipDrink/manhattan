@@ -299,7 +299,8 @@ angular.module('app.common.flux', [
                     status: order.status
                   }
                 }
-              }
+              },
+              respondTo: {}
             }, 'orders');
         }, 3000);
       },
