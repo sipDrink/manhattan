@@ -290,6 +290,7 @@ angular.module('app.common.flux', [
           } else {
             order = self.orders[orderIndex];
           }
+
           delete self.promises[orderId]; //delete the promise if order is removed
           $dispatcher.pub(
             { actions: { 
@@ -303,6 +304,7 @@ angular.module('app.common.flux', [
               respondTo: {}
             }, 'orders');
         }, 3000);
+        this.promises[orderId] = timeout;
       },
 
       receiveOrder: function(order) {
