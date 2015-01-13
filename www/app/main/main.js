@@ -24,7 +24,7 @@ angular.module('app.main', [
                                    $ionicPopover, $ionicHistory, $log,
                                    $rootScope, $store, Auth) {
 
-    $dispatcher.kickstart($store.getUser());
+    // $dispatcher.kickstart($store.getUser());
     this.signout = function() {
       console.log('MainCtrl signout');
       Auth.signout();
@@ -34,7 +34,7 @@ angular.module('app.main', [
       this.active_order = '';
       this.active_menu = '';
       this.active_settings = '';
-      switch (id){
+      switch (id) {
         case 1:  this.active_order = 'act';
           break;
         case 2:  this.active_menu = 'act';
