@@ -133,19 +133,19 @@ angular.module('app.common.flux', [
 
       loadDrink:function(){
         //load drinks
-        $log.log('user drinks:', this.user.drinks)
         var store = this;
         if(this.user.drinks.length > 0){
           this.user.drinks.forEach(function(item){
-            var category = item.category.toLowerCase();
-            if (!store.drinkList.hasOwnProperty(category)) {
-              store.drinkList[category] = [item];
-            } else {
-              store.drinkList[category].push(item);
+            if(item !== null){
+              var category = item.category.toLowerCase();
+              if (!store.drinkList.hasOwnProperty(category)) {
+                store.drinkList[category] = [item];
+              } else {
+                store.drinkList[category].push(item);
+              }
             }
           });
           
-          console.log('loadDrink', this.drinkList);
           this.emitChange();
         }
       },

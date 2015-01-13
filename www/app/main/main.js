@@ -26,6 +26,7 @@ angular.module('app.main', [
 
     $dispatcher.kickstart($store.getUser());
     this.signout = function() {
+      console.log('MainCtrl signout');
       Auth.signout();
     };
 

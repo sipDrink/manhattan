@@ -18,7 +18,6 @@ angular.module('app.main.drinkMenu', [
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
                                         $log) {
 		
-    // $actions.loadDrink();
     $store.bindTo($scope, function() {
       $scope.opts = $store.getListOpts();
       $scope.drinks = $store.getDrinks();
@@ -37,10 +36,13 @@ angular.module('app.main.drinkMenu', [
         name: '',
         price: ''
       };
+      console.log($scope.drinks);
 		};
 
     this.deleteDrink = function(drink) {
       $actions.deleteDrink(drink);
+      console.log($scope.drinks);
+
     };
 
 		$ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {

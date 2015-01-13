@@ -46,8 +46,8 @@ angular.module('app.auth', [])
           // if there isnt:
             // set auth_key to 'auth0|####'
         }
-        // load bar data into $store
         $actions.receiveUser(profile);
+        // load bar data into $store
         $actions.loadDrink();
         defer.resolve(profile);
       }, function(error) {
@@ -58,6 +58,7 @@ angular.module('app.auth', [])
     };
 
     var signout = function() {
+      console.log('signout');
       auth.signout();
       $actions.reset();
       localStorageService.remove('profile');
