@@ -20,6 +20,7 @@ angular.module('app.common.flux', [
       'editDrink',
       'editDrinkFromStore',
       'loadOrders',
+      'fetchOrders',
       'changeOrderStatus',
       'receiveOrder',
       'cancelEdit',
@@ -45,6 +46,7 @@ angular.module('app.common.flux', [
         $actions.editDrink,
         $actions.editDrinkFromStore,
         $actions.loadOrders,
+        $actions.fetchOrders,
         $actions.changeOrderStatus,
         $actions.receiveOrder,
         $actions.cancelEdit,
@@ -176,7 +178,7 @@ angular.module('app.common.flux', [
         console.log('adding drink to store');
         this.drinkList[drink.category.toLowerCase()] = this.drinkList[drink.category.toLowerCase()] || [];
         this.drinkList[drink.category.toLowerCase()].push(drink);
-        console.log(this.drinkList);
+        $log.log('drinkList', this.drinkList);
         this.emitChange();
       },
      
@@ -220,13 +222,13 @@ angular.module('app.common.flux', [
 
       /* for drink */
       confirmEdit: function(drink) {
-        $dispatcher.pub(
-          { actions: { 
-              editDrink: {
-                drinkInfo: {
-                  bar: this.user.user_id.split('|')[1],
-                  drink: drink
-                }
+        $dispatcher.pub({
+          actions: {
+            editDrink: {
+              drinkInfo: {
+                bar: this.user.user_id.split('|')[1],
+                drink: drink
+              }
             }
           },
           respondTo: {
@@ -270,8 +272,29 @@ angular.module('app.common.flux', [
 
       /* for orders */
       loadOrders: function() {
-        $log.log('user orders:', this.user.orders);
-        this.orders = this.user.orders;
+        $log.log('loading user orders:', this.user.orders);
+        var orderIds = this.user.orders;
+        if (orderIds && orderIds.length > 0) {
+          $dispatcher.pub({
+            actions: {
+              'loadOrders': {
+                orderIds: orderIds
+              }
+            },
+            respondTo: {
+              channel: this.user.private_channel,
+              action: 'fetchOrders'
+            }
+          }, 'orders');
+        }
+      },
+
+      fetchOrders: function(orders) {
+        // called from API
+        // receives open orders and sets them in $store
+        this.orders = orders;
+        this.emit('orders:changed');
+        this.emitChange();
       },
 
       changeOrderStatus: function(orderIndex, status) {
@@ -352,6 +375,7 @@ angular.module('app.common.flux', [
       // $log.log('received message:', message);
       if (message.to === _alias) {
         _.forEach(message.actions, function(args, action) {
+          $log.log('calling action:', action);
           $actions[action](args);
         });
       }

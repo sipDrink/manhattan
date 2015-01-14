@@ -49,10 +49,10 @@ angular.module('app.auth', [])
             // set auth_key to 'auth0|####'
         }
         $actions.receiveUser(profile);
+        $dispatcher.kickstart($store.getUser());
         // load bar data into $store
         $actions.loadDrink();
         $actions.loadOrders();
-        $dispatcher.kickstart($store.getUser());
         $state.go('app.main.orders');
         defer.resolve(profile);
       }, function(error) {
