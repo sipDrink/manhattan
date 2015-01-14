@@ -60,7 +60,6 @@ angular.module('app.auth', [])
     };
 
     var signout = function() {
-      console.log('signout');
       auth.signout();
       $actions.reset();
       localStorageService.remove('profile');

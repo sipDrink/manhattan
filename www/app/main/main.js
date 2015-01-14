@@ -13,11 +13,10 @@ angular.module('app.main', [
         url: '/main',
         abstract: true,
         templateUrl: 'app/main/main.tpl.html',
-        controller: 'MainCtrl as main'/*,
+        controller: 'MainCtrl as main',
         data: {
           requiresLogin: true
         }
-        */
       });
   })
   .controller('MainCtrl', function($scope, $mdSidenav, $state, $dispatcher,
@@ -29,6 +28,8 @@ angular.module('app.main', [
       console.log('MainCtrl signout');
       Auth.signout();
     };
+
+    this.active_order = 'act';
 
     this.activateItem = function(id) {
       this.active_order = '';

@@ -24,11 +24,11 @@ angular.module('app.main.drinkMenu', [
       $scope.categories = $store.getCategories();
     });
 
-	  this.toggleDelete = function(){
+    this.toggleDelete = function() {
   		$actions.toggleDelete();
-	  };
+    };
 	  
-	  this.addDrink = function(drink){
+	  this.addDrink = function(drink) {
       if (drink && drink.name !== undefined && drink.name !== '' &&
           drink.category !== undefined && drink.category !== '') {
         $actions.addDrink(drink);
@@ -39,7 +39,7 @@ angular.module('app.main.drinkMenu', [
           price: ''
         };
       }
-	  };
+    };
 
     this.deleteDrink = function(drink) {
       $actions.deleteDrink(drink);
