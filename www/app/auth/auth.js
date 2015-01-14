@@ -14,7 +14,7 @@ angular.module('app.auth', [])
         .then(function(user) {
           // $dispatcher.kickstart(user);
           // $actions.updateMe(user);
-          $state.go('app.main.orders');
+          // $state.go('app.main.orders');
           $log.log('signed in against Auth0');
         })
         .catch(function(err) {
@@ -35,6 +35,7 @@ angular.module('app.auth', [])
         standalone: true,
         // This asks for the refresh token
         // So that the user never has to log in again
+        connection: ['Username-Password-Authentication'],
         authParams: {
           scope: 'openid offline_access'
         }
@@ -50,11 +51,14 @@ angular.module('app.auth', [])
         // load bar data into $store
         $actions.receiveUser(profile);
         $actions.loadDrink();
+        $actions.loadOrders();
         $dispatcher.kickstart($store.getUser());
+        $state.go('app.main.orders');
         defer.resolve(profile);
       }, function(error) {
         defer.reject(error);
         $log.error('There was an error logging in', error);
+
       });
       return defer.promise;
     };

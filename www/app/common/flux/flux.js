@@ -19,6 +19,7 @@ angular.module('app.common.flux', [
       'deleteDrinkFromStore',
       'editDrink',
       'editDrinkFromStore',
+      'loadOrders',
       'changeOrderStatus',
       'receiveOrder',
       'cancelEdit',
@@ -43,6 +44,7 @@ angular.module('app.common.flux', [
         $actions.deleteDrinkFromStore,
         $actions.editDrink,
         $actions.editDrinkFromStore,
+        $actions.loadOrders,
         $actions.changeOrderStatus,
         $actions.receiveOrder,
         $actions.cancelEdit,
@@ -66,6 +68,8 @@ angular.module('app.common.flux', [
       ],
 
       //orders: {} are used for testing
+      orders: [],
+      /*
       orders: [
         {drinks: [{name: 'Grey Goose', category: 'Shot', price: 80, quantity: 4},
                   {name: '2012 Caynus Cabernet Sauvignon', category: 'Wine', price:18 ,
@@ -101,6 +105,7 @@ angular.module('app.common.flux', [
          _id: '3324a',
          status: 'paidFor'}
       ],
+       */
 
       //temp storage for timeouts to be executed for drink orders
       promises: {},
@@ -144,8 +149,6 @@ angular.module('app.common.flux', [
               store.drinkList[category].push(item);
             }
           });
-          
-          console.log('loadDrink', this.drinkList);
           this.emitChange();
         }
       },
@@ -266,6 +269,11 @@ angular.module('app.common.flux', [
       },
 
       /* for orders */
+      loadOrders: function() {
+        $log.log('user orders:', this.user.orders);
+        this.orders = this.user.orders;
+      },
+
       changeOrderStatus: function(orderIndex, status) {
         var orderId = this.orders[orderIndex]._id;
         var self = this;
