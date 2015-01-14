@@ -48,8 +48,8 @@ angular.module('app.auth', [])
           // if there isnt:
             // set auth_key to 'auth0|####'
         }
-        // load bar data into $store
         $actions.receiveUser(profile);
+        // load bar data into $store
         $actions.loadDrink();
         $actions.loadOrders();
         $dispatcher.kickstart($store.getUser());
