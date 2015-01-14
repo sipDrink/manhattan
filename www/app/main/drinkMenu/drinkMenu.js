@@ -18,18 +18,17 @@ angular.module('app.main.drinkMenu', [
 	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
                                         $log) {
 		
-    // $actions.loadDrink();
     $store.bindTo($scope, function() {
       $scope.opts = $store.getListOpts();
       $scope.drinks = $store.getDrinks();
       $scope.categories = $store.getCategories();
     });
 
-	  this.toggleDelete = function(){
+    this.toggleDelete = function() {
   		$actions.toggleDelete();
-	  };
+    };
 	  
-	  this.addDrink = function(drink){
+	  this.addDrink = function(drink) {
       if (drink && drink.name !== undefined && drink.name !== '' &&
           drink.category !== undefined && drink.category !== '') {
         $actions.addDrink(drink);
@@ -40,10 +39,12 @@ angular.module('app.main.drinkMenu', [
           price: ''
         };
       }
-	  };
+    };
 
     this.deleteDrink = function(drink) {
       $actions.deleteDrink(drink);
+      console.log($scope.drinks);
+
     };
 
 		$ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {

@@ -108,11 +108,10 @@ angular.module('app.common.flux', [
       reset: function() {
         $log.log('resetting $store');
         this.user = {};
-        this.drinkList = [];
+        this.drinkList = {};
         this.orders = [];
         this.categories = [];
         this.listOpts = {};
-        this.emitChange();
       },
 
       /* CHANGE emitChange() to be more specific */
@@ -126,31 +125,30 @@ angular.module('app.common.flux', [
       },
 
       /* for drinkMenu */
-      toggleDelete: function(){
+      toggleDelete: function() {
         this.listOpts.showDelete = !this.listOpts.showDelete;
         this.emitChange();
       },
 
-      loadDrink:function(){
+      loadDrink:function() {
         //load drinks
-        $log.log('user drinks:', this.user.drinks)
         var store = this;
         if(this.user.drinks.length > 0){
           this.user.drinks.forEach(function(item){
-            var category = item.category.toLowerCase();
-            if (!store.drinkList.hasOwnProperty(category)) {
-              store.drinkList[category] = [item];
-            } else {
-              store.drinkList[category].push(item);
+            if(item !== null){
+              var category = item.category.toLowerCase();
+              if (!store.drinkList.hasOwnProperty(category)) {
+                store.drinkList[category] = [item];
+              } else {
+                store.drinkList[category].push(item);
+              }
             }
           });
-          
-          console.log('loadDrink', this.drinkList);
           this.emitChange();
         }
       },
 
-      addDrink: function(drink){
+      addDrink: function(drink) {
         //drinkTypes(liquor), drinks(specialty)
         this.listOpts.showDelete = false;
         $dispatcher.pub(
@@ -169,7 +167,7 @@ angular.module('app.common.flux', [
             }, 'drinks');
       },
 
-      addDrinkToStore: function(drink){
+      addDrinkToStore: function(drink) {
         console.log('adding drink to store');
         this.drinkList[drink.category.toLowerCase()] = this.drinkList[drink.category.toLowerCase()] || [];
         this.drinkList[drink.category.toLowerCase()].push(drink);
@@ -177,7 +175,7 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
      
-      deleteDrink: function(drink){
+      deleteDrink: function(drink) {
         this.original_drink.category = drink.category.toLowerCase();
         $dispatcher.pub(
           { actions: { 
@@ -203,20 +201,20 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      editDrink: function(drink, index){
+      editDrink: function(drink, index) {
         //save category and index 
         this.original_drink.category = drink.category.toLowerCase();
         this.original_drink.index = index;
       },
 
       //it checks numbers of drinkList in the category, remove category from menu if no drink found  
-      removeEmpty: function(category){
+      removeEmpty: function(category) {
         if(this.drinkList[category].length === 0)
           delete this.drinkList[category];
       },
 
       /* for drink */
-      confirmEdit: function(drink){
+      confirmEdit: function(drink) {
         $dispatcher.pub(
           { actions: { 
               editDrink: {
@@ -233,7 +231,7 @@ angular.module('app.common.flux', [
         }, 'drinks');
       },
 
-      editDrinkFromStore: function(drink){
+      editDrinkFromStore: function(drink) {
         //move drink to another category if category is changed
         if(this.original_drink.category !== drink.category.toLowerCase()){
           this.drinkList[this.original_drink.category].splice(this.original_drink.index, 1);
@@ -250,7 +248,7 @@ angular.module('app.common.flux', [
         this.emitChange();
       },
 
-      cancelEdit: function(){
+      cancelEdit: function() {
         //the change won't be saved, but need to update the view
         this.emitChange();
       },
