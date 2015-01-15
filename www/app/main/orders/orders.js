@@ -11,7 +11,8 @@ angular.module('app.main.orders', [])
         }
     });
   })
-  .controller('OrdersCtrl', function($scope, $actions, $store, $ionicSlideBoxDelegate) {
+  .controller('OrdersCtrl', function($scope, $actions, $store,
+                                     $ionicSlideBoxDelegate) {
     var status = ['paidFor', 'processed', 'redeemed'];
     var statusInts = {
       'paidFor': 0,
@@ -36,11 +37,8 @@ angular.module('app.main.orders', [])
     $scope.$on('$ionicView.beforeEnter', function() { 
       $ionicSlideBoxDelegate.$getByHandle('slideHandle').update();
      });
-   
+
     $scope.changeStatus = function(orderIndex, index) {
-      // needs to:
-        // setTimeout before changing orderStatus in store
-        // setTimeout before calling $dispatcher.pub changes
       $actions.changeOrderStatus(orderIndex, status[index]);
     };
   });

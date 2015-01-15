@@ -117,7 +117,7 @@ angular.module('app.common.flux', [
         this.user = {};
         this.drinkList = {};
         this.orders = [];
-        this.categories = [];
+        // this.categories = [];
         this.listOpts = {};
       },
 
@@ -408,6 +408,13 @@ angular.module('app.common.flux', [
           error: function(e) {
             $log.error('error subscribing to channel:', channel, 'with error:', e);
           }
+        });
+      },
+
+      unsub: function(user) {
+        $log.log('unsubbing from:', user.private_channel, userGlobal);
+        PubNub.ngUnsubscribe({
+          channel: [user.private_channel, userGlobal]
         });
       },
 

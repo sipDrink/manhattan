@@ -49,8 +49,7 @@ angular.module('app.main.drinkMenu', [
 
     this.deleteDrink = function(drink) {
       $actions.deleteDrink(drink);
-      console.log($scope.drinks);
-
+      $log($scope.drinks);
     };
 
 
