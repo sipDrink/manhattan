@@ -65,6 +65,7 @@ angular.module('app.auth', [])
 
     var signout = function() {
       auth.signout();
+      $dispatcher.unsub($store.getUser());
       $actions.reset();
       localStorageService.remove('profile');
       localStorageService.remove('token');

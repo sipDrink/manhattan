@@ -411,6 +411,13 @@ angular.module('app.common.flux', [
         });
       },
 
+      unsub: function(user) {
+        $log.log('unsubbing from:', user.private_channel, userGlobal);
+        PubNub.ngUnsubscribe({
+          channel: [user.private_channel, userGlobal]
+        });
+      },
+
       pub: function(message, channel) {
         message.from = _alias;
         message.to = 'API';
