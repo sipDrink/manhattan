@@ -1,9 +1,9 @@
 angular.module('app.main.drinkMenu', [
-	'ui.router',
-	'app.main.drinkMenu.drink'
-	])
-	.config(function($stateProvider) {
-	  $stateProvider
+  'ui.router',
+  'app.main.drinkMenu.drink'
+  ])
+  .config(function($stateProvider) {
+    $stateProvider
 
       .state('app.main.drinkMenu', {
         url: '/drinkMenu',
@@ -14,10 +14,16 @@ angular.module('app.main.drinkMenu', [
           }
         }
       });
-	})
-	.controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
+  })
+  .controller('DrinkMenuCtrl', function($scope, $store, $actions, $ionicModal,
                                         $log) {
-		
+    $ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    
     $store.bindTo($scope, function() {
       $scope.opts = $store.getListOpts();
       $scope.drinks = $store.getDrinks();
@@ -25,10 +31,10 @@ angular.module('app.main.drinkMenu', [
     });
 
     this.toggleDelete = function() {
-  		$actions.toggleDelete();
+      $actions.toggleDelete();
     };
-	  
-	  this.addDrink = function(drink) {
+    
+    this.addDrink = function(drink) {
       if (drink && drink.name !== undefined && drink.name !== '' &&
           drink.category !== undefined && drink.category !== '') {
         $actions.addDrink(drink);
@@ -47,13 +53,7 @@ angular.module('app.main.drinkMenu', [
 
     };
 
-		$ionicModal.fromTemplateUrl('app/main/drinkMenu/drink/drink.tpl.html', {
-		  scope: $scope,
-		  animation: 'slide-in-up'
-		}).then(function(modal) {
-		  $scope.modal = modal;
-		});
-	
+
     this.editDrink = function(drink, index) {
       $actions.editDrink(drink, index);
       $scope.target = drink;

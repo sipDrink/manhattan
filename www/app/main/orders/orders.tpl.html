@@ -21,7 +21,7 @@
 
         <div class="slideBoxContainer" ng-init="orderIndex=$index">
 
-          <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)">
+          <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)" delegate-handle='slideHandle'>
             <ion-slide class="statusSlide inProgress">
             <div class='red statusBox'>
               <span>Processing</span>

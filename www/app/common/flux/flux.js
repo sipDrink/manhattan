@@ -222,20 +222,20 @@ angular.module('app.common.flux', [
 
       /* for drink */
       confirmEdit: function(drink) {
-        $dispatcher.pub({
-          actions: {
-            editDrink: {
-              drinkInfo: {
-                bar: this.user.user_id.split('|')[1],
-                drink: drink
+        $dispatcher.pub(
+          { actions: { 
+              editDrink: {
+                drinkInfo: {
+                  bar: this.user.user_id.split('|')[1],
+                  drink: drink
+                }
               }
+            },
+            respondTo: {
+              channel: this.user.private_channel,
+              action: 'editDrinkFromStore'
             }
-          },
-          respondTo: {
-            channel: this.user.private_channel,
-            action: 'editDrinkFromStore'
-          }
-        }, 'drinks');
+          }, 'drinks');
       },
 
       editDrinkFromStore: function(drink) {
