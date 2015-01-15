@@ -222,13 +222,13 @@ angular.module('app.common.flux', [
                   bar: this.user.user_id.split('|')[1],
                   drink: drink
                 }
+              }
+            },
+            respondTo: {
+              channel: this.user.private_channel,
+              action: 'editDrinkFromStore'
             }
-          },
-          respondTo: {
-            channel: this.user.private_channel,
-            action: 'editDrinkFromStore'
-          }
-        }, 'drinks');
+          }, 'drinks');
       },
 
       editDrinkFromStore: function(drink) {

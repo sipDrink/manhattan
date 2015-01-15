@@ -6,7 +6,7 @@
   </div>
 </ion-header-bar> -->
 
-<ion-content>
+<ion-content ng-controller="OrdersCtrl">
   <div class="orderContainer" layout="row" layout-margin layout-fill layout-wrap layout-padding>
     <md-card class="orderCard" ng-repeat="order in orders" layout="column" layout-align="center">
       <div class="customerInfo">
@@ -21,7 +21,7 @@
 
         <div class="slideBoxContainer" ng-init="orderIndex=$index">
 
-          <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)">
+          <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)" delegate-handle='slideHandle'>
             <ion-slide class="statusSlide inProgress">
             <div class='red statusBox'>
               <span>Processing</span>
