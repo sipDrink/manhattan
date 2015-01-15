@@ -117,7 +117,7 @@ angular.module('app.common.flux', [
         this.user = {};
         this.drinkList = {};
         this.orders = [];
-        this.categories = [];
+        // this.categories = [];
         this.listOpts = {};
       },
 
