@@ -21,12 +21,12 @@ angular.module('app.main.orders', [])
 
     var updateOrders = function() {
       $scope.orders = $store.getOrders();
-      $scope.orders.forEach(function(order) {
-        order.status = statusInts[order.status];
-      });
+      if ($scope.orders && $scope.orders.length > 0) {
+        $scope.orders.forEach(function (order) {
+          order.status = statusInts[order.status];
+        });
+      }
     };
-
-    updateOrders();
 
     $scope.$on('orders:changed', function() {
       updateOrders();

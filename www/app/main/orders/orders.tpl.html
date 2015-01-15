@@ -11,10 +11,10 @@
     <md-card class="orderCard" ng-repeat="order in orders" layout="column" layout-align="center">
       <div class="customerInfo">
 
-        <div class="customerFace">
+        <div class="customerFace" ng-init="name=order.customers[0].name.split(' ')[0]">
           <img alt="" src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg">
         </div>
-        <span>{{order.customer.name}}'s Order</span>
+        <span>{{name}}'s Order</span>
       </div>
 
       <div class="orderInfo">
