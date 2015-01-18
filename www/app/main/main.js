@@ -25,11 +25,8 @@ angular.module('app.main', [
 
     // $dispatcher.kickstart($store.getUser());
     this.signout = function() {
-      console.log('MainCtrl signout');
       Auth.signout();
     };
-
-    this.active_order = 'act';
 
     this.activateItem = function(id) {
       this.active_order = '';
@@ -44,6 +41,8 @@ angular.module('app.main', [
         //   break;
       }
     };
+
+    this.activateItem(1);
 
     // this.nav = function(what){
     //   $log.log('$mdSidenav ', what);

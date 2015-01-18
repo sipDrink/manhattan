@@ -30,6 +30,11 @@ angular.module('app.main.drinkMenu', [
       $scope.categories = $store.getCategories();
     });
 
+    $scope.$on('$ionicView.enter', function() {
+      // TODO: use event emitters instead of reaching into another scope
+      $scope.$parent.$parent.main.activateItem(2);
+    });
+
     this.toggleDelete = function() {
       $actions.toggleDelete();
     };
