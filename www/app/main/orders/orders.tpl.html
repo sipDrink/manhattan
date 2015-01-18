@@ -6,26 +6,25 @@
   </div>
 </ion-header-bar> -->
 
-<ion-content>
+<ion-content class="orderContainerContent">
   <div class="orderContainer" layout="row" layout-margin layout-fill layout-wrap layout-padding>
     <md-card class="orderCard" ng-repeat="order in orders" layout="column" layout-align="center">
-      <div class="customerInfo">
 
+      <div class="customerInfo">
         <div class="customerFace" ng-init="name=order.customers[0].name.split(' ')[0]">
-          <img alt="" src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg">
+          <img alt="" src="{{order.customers[0].picture}}">
         </div>
         <span>{{name}}'s Order</span>
       </div>
 
       <div class="orderInfo">
-
         <div class="slideBoxContainer" ng-init="orderIndex=$index">
 
           <ion-slide-box active-slide="order.status" show-pager="false" on-slide-changed="changeStatus(orderIndex, $index)" delegate-handle='slideHandle'>
             <ion-slide class="statusSlide inProgress">
-            <div class='red statusBox'>
-              <span>Processing</span>
-            </div>
+              <div class='red statusBox'>
+                <span>Processing</span>
+              </div>
               <table>
                 <tr ng-repeat="drink in order.drinks">
                   <td class="drinkName">{{drink.name}}</td>
@@ -33,10 +32,11 @@
                 </tr>
               </table>
             </ion-slide>
+
             <ion-slide class="statusSlide pickUp">
-            <div class='orange statusBox'>
-              <span>Pick Up</span>
-            </div>
+              <div class='blue statusBox'>
+                <span>Pick Up</span>
+              </div>
               <table>
                 <tr ng-repeat="drink in order.drinks">
                   <td class="drinkName">{{drink.name}}</td>
@@ -44,10 +44,11 @@
                 </tr>
               </table>
             </ion-slide>
+
             <ion-slide class="statusSlide redeemed">
-            <div class='green statusBox'>
-              <span>Complete</span>
-            </div>
+              <div class='green statusBox'>
+                <span>Complete</span>
+              </div>
               <table>
                 <tr ng-repeat="drink in order.drinks">
                   <td class="drinkName">{{drink.name}}</td>
@@ -68,6 +69,7 @@
           
         </div>
       </div>
+
     </md-card>
   </div>
 </ion-content>
