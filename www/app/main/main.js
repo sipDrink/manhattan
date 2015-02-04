@@ -5,7 +5,8 @@
 */
 angular.module('app.main', [
   'app.main.drinkMenu',
-  'app.main.orders'
+  'app.main.orders',
+  'app.main.settings'
 ])
   .config(function($stateProvider) {
     $stateProvider

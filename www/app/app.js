@@ -39,7 +39,6 @@ angular.module('starter', [
     $store.bindTo($scope, function() {
       // sets AppController's $scope.user to $store.user
       this.user = $store.getUser();
-      $log.log('AppController heard a change on $store');
     }.bind(this));
 
   })

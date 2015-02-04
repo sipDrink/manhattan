@@ -9,22 +9,24 @@
         <ion-item id='bar-pic' nav-clear>
           <img src="../../img/wall.jpg" style='width:275px'/>
         </ion-item>
-        <ion-item nav-clear href="#/main/orders" ng-click='main.activateItem(1)' ng-class='main.active_order'>
-          <i class='icon ion-card'></i>
+        <ion-item nav-clear ui-sref="app.main.orders" ui-sref-active="act">
+          <i class="icon ion-card"></i>
           <span>Orders</span>
         </ion-item>
-        <ion-item nav-clear href="#/main/drinkMenu" ng-click='main.activateItem(2)' ng-class='main.active_menu'>
+        <ion-item nav-clear ui-sref="app.main.drinkMenu" ui-sref-active="act">
           <i class="icon ion-beer"></i>
           <span>Menu</span>
         </ion-item>
-        <!-- <ion-item nav-clear href="#" ng-click='main.activateItem(3)' ng-class='main.active_settings'>
-          <i class="icon ion-gear-b"></i>
+        <ion-item nav-clear ui-sref="app.main.settings" ui-sref-active="act" ng-class="{alert: !app.user.completedSignup }">
+          <i class="icon ion-gear-a"></i>
           <span>Settings</span>
-        </ion-item> -->
-        <ion-item nav-clear href='#' ng-click='main.signout()'>
+        </ion-item>
+
+        <ion-item nav-clear ng-click='main.signout()'>
           <i class="icon ion-fireball"></i>
           <span>Sign Out</span>
         </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-side-menu>
